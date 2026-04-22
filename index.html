@@ -230,6 +230,44 @@
     .chat-send:hover:not(:disabled) { background: var(--accent-h); }
     .chat-send:disabled { opacity: .4; cursor: not-allowed; }
 
+    /* ── HISTORY ── */
+    .hist-btn-row { display: flex; justify-content: center; margin-top: 8px; }
+    .hist-empty { text-align: center; padding: 32px 16px; color: var(--muted2); font-size: 13px; }
+    .hist-session {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .hist-session-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hist-day-name { font-size: 15px; font-weight: 800; }
+    .hist-date     { font-size: 11px; color: var(--muted2); text-align: right; }
+    .hist-ex-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hist-ex-row:last-child { border-bottom: none; }
+    .hist-ex-name  { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .hist-ex-stats { font-size: 12px; color: var(--muted2); }
+    .hist-ex-stats strong { color: var(--text); }
+    .hist-next-w { font-size: 16px; font-weight: 800; text-align: right; }
+    .hist-next-w.up   { color: var(--green); }
+    .hist-next-w.same { color: var(--yellow); }
+    .hist-next-w.down { color: var(--red); }
+    .hist-arrow { font-size: 11px; margin-left: 2px; }
+    .hist-clear-row { text-align: center; padding: 12px 0 4px; }
+
     /* ── UTIL ── */
     .hidden { display: none !important; }
   </style>
@@ -264,6 +302,20 @@
         </button>
       </div>
     </div>
+    <div class="hist-btn-row">
+      <button class="btn-ghost" onclick="showHistory()" id="hist-nav-btn" style="font-size:12px;gap:6px;display:flex;align-items:center;">
+        📋 <span id="hist-nav-label">Workout History</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ HISTORY VIEW ═══ -->
+  <div id="history-view" class="hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;">
+      <div style="font-size:18px;font-weight:800;">Workout History</div>
+      <button class="btn-ghost" onclick="hideHistory()" style="font-size:12px;">← Back</button>
+    </div>
+    <div id="hist-content"></div>
   </div>
 
   <!-- ═══ STEP 2: EXERCISE CONFIG ═══ -->
@@ -801,6 +853,8 @@ function toggleTable(i) {
 }
 
 function showNextSession() {
+  saveSession();
+  updateHistNavLabel();
   document.getElementById('next-session-weights').innerHTML = S.exs.map(ex => `
     <div style="margin-bottom:12px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:2px;">
@@ -828,6 +882,129 @@ function newSession() {
   S.exs.forEach(ex => Object.assign(ex, { working: null, s3Reps: null, adjWeight: null, inputMode: 'working' }));
   showStepConfig(prevWeights);
 }
+
+// ─── HISTORY ──────────────────────────────────────────────────────────────────
+
+const HISTORY_KEY = 'apre_history';
+
+function saveSession() {
+  const record = {
+    date: new Date().toISOString(),
+    day:     S.day,
+    dayName: DAYS[S.day].name,
+    dayEm:   DAYS[S.day].em,
+    unit:    S.unit,
+    exercises: S.exs.map(ex => ({
+      key:       ex.key,
+      name:      EXERCISES[ex.key].name,
+      em:        EXERCISES[ex.key].em,
+      variant:   ex.variant,
+      working:   ex.working,
+      s3Reps:    ex.s3Reps,
+      adjWeight: ex.adjWeight,
+    })),
+  };
+  const history = getHistory();
+  history.unshift(record);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 200)));
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function updateHistNavLabel() {
+  const n = getHistory().length;
+  const el = document.getElementById('hist-nav-label');
+  if (el) el.textContent = n > 0 ? `Workout History (${n})` : 'Workout History';
+}
+
+function showHistory() {
+  document.getElementById('step-day').classList.add('hidden');
+  document.getElementById('history-view').classList.remove('hidden');
+  renderHistory();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function hideHistory() {
+  document.getElementById('history-view').classList.add('hidden');
+  document.getElementById('step-day').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderHistory() {
+  const history = getHistory();
+  const el = document.getElementById('hist-content');
+
+  if (history.length === 0) {
+    el.innerHTML = `<div class="hist-empty">No sessions recorded yet.<br>Complete a workout to see your history here.</div>`;
+    return;
+  }
+
+  el.innerHTML = history.map(s => renderHistSession(s)).join('') +
+    `<div class="hist-clear-row">
+       <button class="btn-ghost" style="font-size:12px;color:var(--red);" onclick="clearHistory()">Clear All History</button>
+     </div>`;
+}
+
+function renderHistSession(s) {
+  const exRows = s.exercises.map(ex => {
+    const dir = ex.adjWeight > ex.working ? 'up' : ex.adjWeight < ex.working ? 'down' : 'same';
+    const arrow = dir === 'up' ? '↑' : dir === 'down' ? '↓' : '→';
+    return `
+      <div class="hist-ex-row">
+        <div>
+          <div class="hist-ex-name">${ex.em}  ${ex.name}</div>
+          <div class="hist-ex-stats">
+            APRE ${ex.variant} · Set 3: <strong>${ex.s3Reps} rep${ex.s3Reps === 1 ? '' : 's'}</strong> @ <strong>${ex.working} ${s.unit}</strong>
+          </div>
+        </div>
+        <div>
+          <div class="hist-next-w ${dir}">${ex.adjWeight} ${s.unit}<span class="hist-arrow">${arrow}</span></div>
+          <div style="font-size:10px;color:var(--muted2);text-align:right;">next wt</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="hist-session">
+      <div class="hist-session-hdr">
+        <div class="hist-day-name">${s.dayEm}  ${s.dayName}</div>
+        <div class="hist-date">${formatHistDate(s.date)}<br>${formatHistTime(s.date)}</div>
+      </div>
+      ${exRows}
+    </div>
+  `;
+}
+
+function formatHistDate(iso) {
+  const d = new Date(iso);
+  const now = new Date();
+  const diffMs = now - d;
+  const diffDays = Math.floor(diffMs / 86400000);
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Yesterday';
+  const opts = diffDays > 365
+    ? { month: 'short', day: 'numeric', year: 'numeric' }
+    : { month: 'short', day: 'numeric' };
+  return d.toLocaleDateString('en-US', opts);
+}
+
+function formatHistTime(iso) {
+  return new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
+
+function clearHistory() {
+  if (!confirm('Delete all workout history?')) return;
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+  updateHistNavLabel();
+}
+
+// Init history label on load
+updateHistNavLabel();
 
 // ─── CHAT ─────────────────────────────────────────────────────────────────────
 

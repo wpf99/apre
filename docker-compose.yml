@@ -2,9 +2,11 @@ services:
   apre-tracker:
     build: .
     restart: unless-stopped
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.apre.rule=Host(`apre.mxytzplk.org`)"
       - "traefik.http.routers.apre.entrypoints=websecure"
       - "traefik.http.routers.apre.tls.certresolver=letsencrypt"
-      - "traefik.http.services.apre.loadbalancer.server.port=80"
+      - "traefik.http.services.apre.loadbalancer.server.port=8000"

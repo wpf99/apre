@@ -1,0 +1,16 @@
+services:
+  apre-tracker:
+    build: .
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.apre.rule=Host(`apre.mxytzplk.org`)"
+      - "traefik.http.routers.apre.entrypoints=websecure"
+      - "traefik.http.routers.apre.tls.certresolver=letsencrypt"
+      - "traefik.http.services.apre.loadbalancer.server.port=80"
+
+networks:
+  proxy:
+    external: true

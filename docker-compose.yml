@@ -3,7 +3,7 @@ services:
     build: .
     restart: unless-stopped
     networks:
-      - proxy
+      - traefik_default
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.apre.rule=Host(`apre.mxytzplk.org`)"
@@ -12,5 +12,5 @@ services:
       - "traefik.http.services.apre.loadbalancer.server.port=80"
 
 networks:
-  proxy:
+  traefik_default:
     external: true

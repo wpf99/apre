@@ -2,15 +2,9 @@ services:
   apre-tracker:
     build: .
     restart: unless-stopped
-    networks:
-      - traefik_default
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.apre.rule=Host(`apre.mxytzplk.org`)"
       - "traefik.http.routers.apre.entrypoints=websecure"
       - "traefik.http.routers.apre.tls.certresolver=letsencrypt"
       - "traefik.http.services.apre.loadbalancer.server.port=80"
-
-networks:
-  traefik_default:
-    external: true

@@ -36,267 +36,104 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       min-height: 100dvh;
-      padding: 0 16px 48px;
+      padding: 0 16px 80px;
       -webkit-font-smoothing: antialiased;
     }
 
     .app { max-width: 460px; margin: 0 auto; }
 
     /* ── HEADER ── */
-    .hdr {
-      text-align: center;
-      padding: 32px 0 28px;
-    }
-    .hdr-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-    .hdr-icon {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
+    .hdr { text-align: center; padding: 32px 0 28px; }
+    .hdr-logo { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .hdr-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
     .hdr h1 { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
     .hdr h1 span { color: var(--accent); }
     .hdr p { font-size: 12px; color: var(--muted2); margin-top: 4px; letter-spacing: .04em; text-transform: uppercase; }
 
     /* ── CARD ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 10px;
-    }
-    .card-title {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted2);
-      margin-bottom: 12px;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 10px; }
+    .card-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted2); margin-bottom: 12px; }
+    .sect-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted2); margin-bottom: 8px; margin-top: 14px; }
 
-    /* ── EXERCISE GRID ── */
-    .ex-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .ex-grid .ex-btn:last-child:nth-child(odd) {
-      grid-column: span 2;
-    }
-    .ex-btn {
+    /* ── DAY BUTTONS ── */
+    .day-grid { display: flex; flex-direction: column; gap: 8px; }
+    .day-btn {
       background: var(--surface2);
       border: 1.5px solid var(--border2);
       border-radius: var(--radius-sm);
-      padding: 13px 12px;
+      padding: 16px;
       cursor: pointer;
       text-align: left;
       color: var(--text);
       transition: border-color .15s, background .15s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
     }
-    .ex-btn:hover   { border-color: var(--accent); background: var(--accent-dim2); }
-    .ex-btn.active  { border-color: var(--accent); background: var(--accent-dim); }
-    .ex-btn .ex-em  { font-size: 18px; margin-bottom: 4px; }
-    .ex-btn .ex-nm  { font-size: 13px; font-weight: 600; }
+    .day-btn:hover  { border-color: var(--accent); background: var(--accent-dim2); }
+    .day-btn.active { border-color: var(--accent); background: var(--accent-dim); }
+    .day-em   { font-size: 28px; flex-shrink: 0; line-height: 1; }
+    .day-name { font-size: 16px; font-weight: 700; }
+    .day-subs { font-size: 12px; color: var(--muted2); margin-top: 3px; }
 
     /* ── VARIANT BUTTONS ── */
     .var-row { display: flex; gap: 8px; }
-    .var-btn {
-      flex: 1;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: var(--radius-sm);
-      padding: 14px 6px;
-      cursor: pointer;
-      text-align: center;
-      color: var(--text);
-      transition: border-color .15s, background .15s;
-    }
+    .var-btn { flex: 1; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: var(--radius-sm); padding: 14px 6px; cursor: pointer; text-align: center; color: var(--text); transition: border-color .15s, background .15s; }
     .var-btn:hover  { border-color: var(--accent); background: var(--accent-dim2); }
     .var-btn.active { border-color: var(--accent); background: var(--accent-dim); }
-    .var-btn .v-n   { font-size: 24px; font-weight: 800; color: var(--accent); }
-    .var-btn .v-l   { font-size: 11px; color: var(--muted2); margin-top: 1px; }
-    .var-btn .v-p   { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .var-btn .v-n { font-size: 24px; font-weight: 800; color: var(--accent); }
+    .var-btn .v-l { font-size: 11px; color: var(--muted2); margin-top: 1px; }
+    .var-btn .v-p { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
     /* ── TOGGLE ROW ── */
     .tog-row { display: flex; gap: 6px; }
-    .tog-btn {
-      flex: 1;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: 8px;
-      padding: 9px;
-      cursor: pointer;
-      text-align: center;
-      color: var(--muted2);
-      font-size: 13px;
-      font-weight: 600;
-      transition: all .15s;
-    }
+    .tog-btn { flex: 1; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: 8px; padding: 9px; cursor: pointer; text-align: center; color: var(--muted2); font-size: 13px; font-weight: 600; transition: all .15s; }
     .tog-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-    /* ── WEIGHT INPUT ── */
-    .w-input-wrap {
-      position: relative;
-      margin-bottom: 8px;
-    }
-    .w-input {
-      width: 100%;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: var(--radius-sm);
-      padding: 14px 56px 14px 16px;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s;
-      -moz-appearance: textfield;
-    }
-    .w-input::-webkit-outer-spin-button,
-    .w-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-    .w-input:focus { border-color: var(--accent); }
-    .w-unit {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted2);
-      font-size: 13px;
-      font-weight: 600;
-      pointer-events: none;
-    }
-    .est-link {
-      display: block;
-      text-align: center;
-      font-size: 12px;
-      color: var(--accent);
-      cursor: pointer;
-      text-decoration: none;
-      margin-top: 2px;
-      padding: 4px;
-    }
-    .est-link:hover { text-decoration: underline; }
-
     /* ── INPUT MODE TOGGLE ── */
-    .mode-row {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .mode-btn {
-      flex: 1;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: 8px;
-      padding: 8px 6px;
-      cursor: pointer;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted2);
-      transition: all .15s;
-    }
+    .mode-row { display: flex; gap: 6px; margin-bottom: 12px; }
+    .mode-btn { flex: 1; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: 8px; padding: 8px 6px; cursor: pointer; text-align: center; font-size: 12px; font-weight: 600; color: var(--muted2); transition: all .15s; }
     .mode-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
+    /* ── WEIGHT INPUT ── */
+    .w-input-wrap { position: relative; margin-bottom: 8px; }
+    .w-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: var(--radius-sm); padding: 14px 56px 14px 16px; font-size: 20px; font-weight: 700; color: var(--text); outline: none; transition: border-color .15s; -moz-appearance: textfield; }
+    .w-input::-webkit-outer-spin-button, .w-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .w-input:focus { border-color: var(--accent); }
+    .w-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted2); font-size: 13px; font-weight: 600; pointer-events: none; }
+    .est-link { display: block; text-align: center; font-size: 12px; color: var(--accent); cursor: pointer; text-decoration: none; margin-top: 2px; padding: 4px; }
+    .est-link:hover { text-decoration: underline; }
+
     /* ── BTN PRIMARY ── */
-    .btn-primary {
-      width: 100%;
-      background: var(--accent);
-      border: none;
-      border-radius: var(--radius);
-      padding: 15px;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      cursor: pointer;
-      transition: background .15s, transform .1s;
-      margin-top: 6px;
-    }
-    .btn-primary:hover:not(:disabled)   { background: var(--accent-h); transform: translateY(-1px); }
-    .btn-primary:active:not(:disabled)  { transform: translateY(0); }
+    .btn-primary { width: 100%; background: var(--accent); border: none; border-radius: var(--radius); padding: 15px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer; transition: background .15s, transform .1s; margin-top: 6px; }
+    .btn-primary:hover:not(:disabled)  { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
     .btn-primary:disabled { opacity: .35; cursor: not-allowed; }
     .btn-primary.green { background: var(--green); color: #0a0a0a; }
     .btn-primary.green:hover:not(:disabled) { background: #6ee78d; }
 
     /* ── SESSION HEADER ── */
-    .sess-hdr {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      gap: 10px;
-    }
-    .sess-hdr-left .sess-name { font-size: 20px; font-weight: 800; }
+    .sess-hdr { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; gap: 10px; }
+    .sess-hdr-left .sess-name { font-size: 18px; font-weight: 800; }
     .sess-hdr-left .sess-sub  { font-size: 12px; color: var(--muted2); margin-top: 3px; }
-    .sess-hdr-right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
 
-    .badge {
-      background: var(--accent-dim);
-      color: var(--accent);
-      border-radius: 7px;
-      padding: 4px 9px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .btn-ghost {
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted2);
-      cursor: pointer;
-      transition: all .15s;
-    }
+    .badge { background: var(--accent-dim); color: var(--accent); border-radius: 7px; padding: 4px 9px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .btn-ghost { background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 600; color: var(--muted2); cursor: pointer; transition: all .15s; white-space: nowrap; }
     .btn-ghost:hover { border-color: var(--muted2); color: var(--text); }
 
     /* ── INFO BANNER ── */
-    .info-banner {
-      background: var(--accent-dim2);
-      border: 1px solid rgba(249,115,22,.25);
-      border-radius: 9px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: var(--muted2);
-      line-height: 1.55;
-      margin-bottom: 12px;
-    }
+    .info-banner { background: var(--accent-dim2); border: 1px solid rgba(249,115,22,.25); border-radius: 9px; padding: 10px 12px; font-size: 12px; color: var(--muted2); line-height: 1.55; margin-bottom: 12px; }
 
     /* ── SET CARDS ── */
-    .set-card {
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      margin-bottom: 8px;
-      transition: opacity .2s;
-    }
-    .set-card.warmup { opacity: .65; }
+    .set-card { background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 8px; transition: opacity .2s; }
+    .set-card.warmup  { opacity: .65; }
     .set-card.working { border-color: rgba(249,115,22,.4); opacity: 1; }
     .set-card.done    { border-color: rgba(74,222,128,.35); }
 
-    .set-hdr {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
+    .set-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
     .set-lbl { display: flex; align-items: center; gap: 8px; }
-    .set-num {
-      width: 26px; height: 26px;
-      background: var(--surface3);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700;
-    }
+    .set-num { width: 26px; height: 26px; background: var(--surface3); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
     .set-card.working .set-num { background: var(--accent); color: #fff; }
     .set-card.done    .set-num { background: var(--green);  color: #0a0a0a; }
     .set-type { font-size: 11px; color: var(--muted2); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
@@ -305,48 +142,15 @@
     .set-r strong { color: var(--text); }
 
     /* ── SET 3 INPUT ── */
-    .reps-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .reps-in {
-      flex: 1;
-      background: var(--surface);
-      border: 1.5px solid var(--border2);
-      border-radius: 9px;
-      padding: 10px 12px;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s;
-      text-align: center;
-      -moz-appearance: textfield;
-    }
-    .reps-in::-webkit-outer-spin-button,
-    .reps-in::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .reps-row { display: flex; gap: 8px; margin-top: 10px; }
+    .reps-in { flex: 1; background: var(--surface); border: 1.5px solid var(--border2); border-radius: 9px; padding: 10px 12px; font-size: 18px; font-weight: 700; color: var(--text); outline: none; transition: border-color .15s; text-align: center; -moz-appearance: textfield; }
+    .reps-in::-webkit-outer-spin-button, .reps-in::-webkit-inner-spin-button { -webkit-appearance: none; }
     .reps-in:focus { border-color: var(--accent); }
-    .reps-log-btn {
-      background: var(--accent);
-      border: none;
-      border-radius: 9px;
-      padding: 10px 18px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      cursor: pointer;
-      transition: background .15s;
-    }
+    .reps-log-btn { background: var(--accent); border: none; border-radius: 9px; padding: 10px 18px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; transition: background .15s; }
     .reps-log-btn:hover { background: var(--accent-h); }
 
     /* ── SET 4 FEEDBACK ── */
-    .s4-feedback {
-      background: var(--surface);
-      border-radius: 9px;
-      padding: 10px 12px;
-      margin-top: 10px;
-    }
+    .s4-feedback { background: var(--surface); border-radius: 9px; padding: 10px 12px; margin-top: 10px; }
     .s4-fb-lbl { font-size: 10px; color: var(--muted2); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
     .s4-fb-txt { font-size: 12px; font-weight: 500; }
     .s4-fb-txt.up   { color: var(--green); }
@@ -358,95 +162,18 @@
     .set-w.down { color: var(--red); }
 
     /* ── NEXT SESSION CARD ── */
-    .next-card {
-      background: var(--green-dim);
-      border-color: rgba(74,222,128,.3);
-    }
+    .next-card { background: var(--green-dim); border-color: rgba(74,222,128,.3); }
     .next-card .card-title { color: var(--green); }
-    .next-weight { font-size: 34px; font-weight: 800; color: var(--green); margin: 4px 0 4px; }
-    .next-note   { font-size: 12px; color: var(--muted2); margin-bottom: 16px; line-height: 1.5; }
+    .next-weight { font-size: 32px; font-weight: 800; color: var(--green); margin: 2px 0 8px; }
 
-    /* ── MODAL ── */
-    .overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.82);
-      z-index: 200;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 16px;
-    }
-    .overlay.open { display: flex; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 20px 20px 16px 16px;
-      padding: 24px;
-      width: 100%;
-      max-width: 460px;
-      animation: slideUp .22s ease-out;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(24px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
-    .modal h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
-    .modal .modal-sub { font-size: 13px; color: var(--muted2); margin-bottom: 18px; line-height: 1.5; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-    .modal-field label {
-      display: block;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted2);
-      margin-bottom: 5px;
-    }
-    .modal-in {
-      width: 100%;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: 9px;
-      padding: 12px;
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s;
-      -moz-appearance: textfield;
-    }
-    .modal-in::-webkit-outer-spin-button,
-    .modal-in::-webkit-inner-spin-button { -webkit-appearance: none; }
-    .modal-in:focus { border-color: var(--accent); }
-    .est-result {
-      background: var(--accent-dim);
-      border-radius: 9px;
-      padding: 12px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .est-result .er-lbl { font-size: 10px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
-    .est-result .er-val { font-size: 26px; font-weight: 800; color: var(--accent); margin-top: 2px; }
-    .modal-btns { display: flex; gap: 8px; }
-    .modal-btns button { flex: 1; }
+    /* ── EXERCISE DIVIDER ── */
+    .ex-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0 10px; }
+    .ex-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .ex-divider-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
 
     /* ── ADJUSTMENT TABLE ── */
-    .adj-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-      margin-top: 2px;
-    }
-    .adj-table th {
-      text-align: left;
-      padding: 6px 8px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      border-bottom: 1px solid var(--border);
-    }
+    .adj-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 2px; }
+    .adj-table th { text-align: left; padding: 6px 8px; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; border-bottom: 1px solid var(--border); }
     .adj-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); color: var(--muted2); }
     .adj-table td:first-child { color: var(--text); font-weight: 600; }
     .adj-table tr.hl-up   td { color: var(--green); }
@@ -456,162 +183,55 @@
     .adj-table tr.hl-same td:first-child,
     .adj-table tr.hl-down td:first-child { font-weight: 700; }
 
-    /* ── UTIL ── */
-    .hidden { display: none !important; }
-    .mt8 { margin-top: 8px; }
+    /* ── MODAL ── */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 200; align-items: flex-end; justify-content: center; padding: 16px; }
+    .overlay.open { display: flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 20px 20px 16px 16px; padding: 24px; width: 100%; max-width: 460px; animation: slideUp .22s ease-out; }
+    @keyframes slideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+    .modal .modal-sub { font-size: 13px; color: var(--muted2); margin-bottom: 18px; line-height: 1.5; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .modal-field label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted2); margin-bottom: 5px; }
+    .modal-in { width: 100%; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: 9px; padding: 12px; font-size: 17px; font-weight: 700; color: var(--text); outline: none; transition: border-color .15s; -moz-appearance: textfield; }
+    .modal-in::-webkit-outer-spin-button, .modal-in::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .modal-in:focus { border-color: var(--accent); }
+    .est-result { background: var(--accent-dim); border-radius: 9px; padding: 12px; text-align: center; margin-bottom: 16px; }
+    .est-result .er-lbl { font-size: 10px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+    .est-result .er-val { font-size: 26px; font-weight: 800; color: var(--accent); margin-top: 2px; }
+    .modal-btns { display: flex; gap: 8px; }
+    .modal-btns button { flex: 1; }
 
     /* ── CHAT ── */
-    .chat-fab {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 52px;
-      height: 52px;
-      background: var(--accent);
-      border: none;
-      border-radius: 50%;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(249,115,22,.45);
-      z-index: 300;
-      transition: transform .15s, background .15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .chat-fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; background: var(--accent); border: none; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 16px rgba(249,115,22,.45); z-index: 300; transition: transform .15s, background .15s; display: flex; align-items: center; justify-content: center; }
     .chat-fab:hover { background: var(--accent-h); transform: scale(1.07); }
 
-    .chat-panel {
-      position: fixed;
-      bottom: 84px;
-      right: 16px;
-      width: min(360px, calc(100vw - 32px));
-      max-height: 480px;
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 32px rgba(0,0,0,.6);
-      z-index: 300;
-      overflow: hidden;
-      transform: translateY(12px);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform .2s ease-out, opacity .2s ease-out;
-    }
-    .chat-panel.open {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .chat-panel { position: fixed; bottom: 84px; right: 16px; width: min(360px, calc(100vw - 32px)); max-height: 480px; background: var(--surface); border: 1px solid var(--border2); border-radius: 18px; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,.6); z-index: 300; overflow: hidden; transform: translateY(12px); opacity: 0; pointer-events: none; transition: transform .2s ease-out, opacity .2s ease-out; }
+    .chat-panel.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-    .chat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px 10px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
+    .chat-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
     .chat-header-left { display: flex; align-items: center; gap: 8px; }
-    .chat-header-icon {
-      width: 28px; height: 28px;
-      background: var(--accent);
-      border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-    }
+    .chat-header-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
     .chat-header-title { font-size: 14px; font-weight: 700; }
     .chat-header-sub   { font-size: 10px; color: var(--muted2); }
-    .chat-close {
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      border-radius: 7px;
-      width: 28px; height: 28px;
-      font-size: 14px;
-      cursor: pointer;
-      color: var(--muted2);
-      display: flex; align-items: center; justify-content: center;
-      transition: color .15s;
-    }
+    .chat-close { background: var(--surface2); border: 1px solid var(--border2); border-radius: 7px; width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: var(--muted2); display: flex; align-items: center; justify-content: center; transition: color .15s; }
     .chat-close:hover { color: var(--text); }
 
-    .chat-msgs {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      scroll-behavior: smooth;
-    }
-    .chat-bubble {
-      max-width: 88%;
-      padding: 9px 12px;
-      border-radius: 12px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .chat-bubble.user {
-      align-self: flex-end;
-      background: var(--accent);
-      color: #fff;
-      border-bottom-right-radius: 4px;
-    }
-    .chat-bubble.assistant {
-      align-self: flex-start;
-      background: var(--surface2);
-      color: var(--text);
-      border-bottom-left-radius: 4px;
-    }
-    .chat-bubble.typing { color: var(--muted2); font-style: italic; }
+    .chat-msgs { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; scroll-behavior: smooth; }
+    .chat-bubble { max-width: 88%; padding: 9px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+    .chat-bubble.user      { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+    .chat-bubble.assistant { align-self: flex-start; background: var(--surface2); color: var(--text); border-bottom-left-radius: 4px; }
+    .chat-bubble.typing    { color: var(--muted2); font-style: italic; }
 
-    .chat-input-row {
-      display: flex;
-      gap: 8px;
-      padding: 10px 12px;
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .chat-input {
-      flex: 1;
-      background: var(--surface2);
-      border: 1.5px solid var(--border2);
-      border-radius: 10px;
-      padding: 9px 12px;
-      font-size: 13px;
-      color: var(--text);
-      outline: none;
-      resize: none;
-      font-family: inherit;
-      line-height: 1.4;
-      max-height: 80px;
-      transition: border-color .15s;
-    }
+    .chat-input-row { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--border); flex-shrink: 0; }
+    .chat-input { flex: 1; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: 10px; padding: 9px 12px; font-size: 13px; color: var(--text); outline: none; resize: none; font-family: inherit; line-height: 1.4; max-height: 80px; transition: border-color .15s; }
     .chat-input:focus { border-color: var(--accent); }
     .chat-input::placeholder { color: var(--muted); }
-    .chat-send {
-      background: var(--accent);
-      border: none;
-      border-radius: 10px;
-      width: 36px;
-      height: 36px;
-      font-size: 16px;
-      cursor: pointer;
-      flex-shrink: 0;
-      align-self: flex-end;
-      transition: background .15s;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-    }
+    .chat-send { background: var(--accent); border: none; border-radius: 10px; width: 36px; height: 36px; font-size: 16px; cursor: pointer; flex-shrink: 0; align-self: flex-end; transition: background .15s; display: flex; align-items: center; justify-content: center; color: #fff; }
     .chat-send:hover:not(:disabled) { background: var(--accent-h); }
     .chat-send:disabled { opacity: .4; cursor: not-allowed; }
 
-    @media (max-width: 380px) {
-      .ex-grid { grid-template-columns: 1fr; }
-      .ex-grid .ex-btn:last-child:nth-child(odd) { grid-column: span 1; }
-    }
+    /* ── UTIL ── */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -625,188 +245,54 @@
     <p>Autoregulatory Progressive Resistance Exercise</p>
   </header>
 
-  <!-- ═══════════════ SETUP VIEW ═══════════════ -->
-  <div id="setup-view">
-
-    <!-- Exercise -->
+  <!-- ═══ STEP 1: DAY SELECTION ═══ -->
+  <div id="step-day">
     <div class="card">
-      <div class="card-title">Exercise</div>
-      <div class="ex-grid" id="ex-grid">
-        <button class="ex-btn" data-ex="bench"    onclick="selEx(this)"><div class="ex-em">🏋️</div><div class="ex-nm">Bench Press</div></button>
-        <button class="ex-btn" data-ex="press"    onclick="selEx(this)"><div class="ex-em">💪</div><div class="ex-nm">Overhead Press</div></button>
-        <button class="ex-btn" data-ex="squat"    onclick="selEx(this)"><div class="ex-em">🦵</div><div class="ex-nm">Back Squat</div></button>
-        <button class="ex-btn" data-ex="deadlift" onclick="selEx(this)"><div class="ex-em">⛏️</div><div class="ex-nm">Deadlift</div></button>
-        <button class="ex-btn" data-ex="rdl"      onclick="selEx(this)"><div class="ex-em">🔄</div><div class="ex-nm">Romanian DL</div></button>
-      </div>
-    </div>
-
-    <!-- APRE Variant -->
-    <div class="card">
-      <div class="card-title">APRE Variant</div>
-      <div class="var-row">
-        <button class="var-btn" data-var="10" onclick="selVar(this)">
-          <div class="v-n">10</div>
-          <div class="v-l">Endurance</div>
-          <div class="v-p">75% 1RM</div>
+      <div class="card-title">Training Day</div>
+      <div class="day-grid">
+        <button class="day-btn" onclick="selDay('deadlift')">
+          <div class="day-em">⛏️</div>
+          <div><div class="day-name">Deadlift Day</div><div class="day-subs">Deadlift · Overhead Press</div></div>
         </button>
-        <button class="var-btn" data-var="6" onclick="selVar(this)">
-          <div class="v-n">6</div>
-          <div class="v-l">Strength</div>
-          <div class="v-p">83% 1RM</div>
+        <button class="day-btn" onclick="selDay('bench')">
+          <div class="day-em">🏋️</div>
+          <div><div class="day-name">Bench Day</div><div class="day-subs">Bench Press · Landmine Row</div></div>
         </button>
-        <button class="var-btn" data-var="3" onclick="selVar(this)">
-          <div class="v-n">3</div>
-          <div class="v-l">Power</div>
-          <div class="v-p">92% 1RM</div>
+        <button class="day-btn" onclick="selDay('squat')">
+          <div class="day-em">🦵</div>
+          <div><div class="day-name">Squat Day</div><div class="day-subs">Back Squat · Weighted Chin-ups</div></div>
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- Weight -->
+  <!-- ═══ STEP 2: EXERCISE CONFIG ═══ -->
+  <div id="step-config" class="hidden">
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;">
+      <div id="config-day-label" style="font-size:15px;font-weight:800;"></div>
+      <button class="btn-ghost" style="font-size:11px;" onclick="goStepDay()">← Change Day</button>
+    </div>
+
     <div class="card">
       <div class="card-title">Units</div>
-      <div class="tog-row" style="margin-bottom:16px">
+      <div class="tog-row">
         <button class="tog-btn active" data-unit="lbs" onclick="selUnit(this)">lbs</button>
         <button class="tog-btn" data-unit="kg" onclick="selUnit(this)">kg</button>
       </div>
-
-      <div class="card-title">Starting Weight</div>
-      <div class="mode-row">
-        <button class="mode-btn active" data-mode="1rm"     onclick="selMode(this)">Enter 1RM</button>
-        <button class="mode-btn"        data-mode="working" onclick="selMode(this)">Enter Working Weight</button>
-      </div>
-
-      <div class="w-input-wrap">
-        <input type="number" id="w-input" class="w-input" placeholder="0" min="0" step="1" inputmode="decimal" oninput="checkReady()">
-        <span class="w-unit" id="w-unit">lbs</span>
-      </div>
-      <div id="mode-hint" style="font-size:11px;color:var(--muted2);margin-top:4px;">
-        Enter your 1-rep max — working weight will be calculated automatically.
-      </div>
-      <span class="est-link" onclick="openEst()">Don't know your 1RM? Estimate it →</span>
     </div>
 
-    <button class="btn-primary" id="start-btn" onclick="startSession()" disabled>
-      Calculate Sets
-    </button>
+    <div id="ex-config-cards"></div>
+
+    <button class="btn-primary" id="calc-btn" onclick="startSession()" disabled>Calculate Sets</button>
   </div>
 
-  <!-- ═══════════════ SESSION VIEW ═══════════════ -->
-  <div id="sess-view" class="hidden">
-
-    <div class="card">
-      <div class="sess-hdr">
-        <div class="sess-hdr-left">
-          <div class="sess-name" id="sess-name">—</div>
-          <div class="sess-sub"  id="sess-sub">—</div>
-        </div>
-        <div class="sess-hdr-right">
-          <span class="badge" id="sess-badge">—</span>
-          <button class="btn-ghost" onclick="goSetup()">Reset</button>
-        </div>
-      </div>
-
-      <div class="info-banner" id="sess-info"></div>
-
-      <!-- SET 1 -->
-      <div class="set-card warmup" id="s1-card">
-        <div class="set-hdr">
-          <div class="set-lbl">
-            <div class="set-num">1</div>
-            <div class="set-type">Warm-up</div>
-          </div>
-        </div>
-        <div class="set-w" id="s1-w">—</div>
-        <div class="set-r" id="s1-r">—</div>
-      </div>
-
-      <!-- SET 2 -->
-      <div class="set-card warmup" id="s2-card">
-        <div class="set-hdr">
-          <div class="set-lbl">
-            <div class="set-num">2</div>
-            <div class="set-type">Warm-up</div>
-          </div>
-        </div>
-        <div class="set-w" id="s2-w">—</div>
-        <div class="set-r" id="s2-r">—</div>
-      </div>
-
-      <!-- SET 3 -->
-      <div class="set-card working" id="s3-card">
-        <div class="set-hdr">
-          <div class="set-lbl">
-            <div class="set-num">3</div>
-            <div class="set-type">Working · AMRAP</div>
-          </div>
-        </div>
-        <div class="set-w" id="s3-w">—</div>
-        <div class="set-r" id="s3-r">Target: <strong id="s3-target">—</strong> — stop at technical failure</div>
-
-        <div id="s3-input-row" class="reps-row">
-          <input type="number" id="s3-reps-in" class="reps-in" placeholder="Reps done" min="0" max="60" inputmode="numeric">
-          <button class="reps-log-btn" onclick="logSet3()">Log</button>
-        </div>
-        <div id="s3-logged" class="hidden" style="margin-top:10px;font-size:13px;color:var(--green);font-weight:600;">
-          ✓ <span id="s3-logged-txt"></span>
-        </div>
-      </div>
-
-      <!-- SET 4 -->
-      <div class="set-card working" id="s4-card">
-        <div class="set-hdr">
-          <div class="set-lbl">
-            <div class="set-num">4</div>
-            <div class="set-type">Working · AMRAP</div>
-          </div>
-        </div>
-        <div id="s4-locked" style="font-size:13px;color:var(--muted2);padding:4px 0;">
-          Complete Set 3 to unlock adjusted weight
-        </div>
-        <div id="s4-reveal" class="hidden">
-          <div class="set-w" id="s4-w">—</div>
-          <div class="set-r">Go to technical failure — this sets next session's target</div>
-          <div class="s4-feedback">
-            <div class="s4-fb-lbl">Autoregulation feedback</div>
-            <div class="s4-fb-txt" id="s4-fb"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADJUSTMENT TABLE (collapsed) -->
-      <div style="margin-top:4px;">
-        <button class="btn-ghost" style="width:100%;font-size:12px;" onclick="toggleTable()">
-          View full adjustment chart ↕
-        </button>
-        <div id="adj-table-wrap" class="hidden" style="margin-top:8px;">
-          <table class="adj-table" id="adj-table">
-            <thead>
-              <tr><th>Reps (Set 3)</th><th>Adjustment</th><th>Meaning</th></tr>
-            </thead>
-            <tbody id="adj-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- NEXT SESSION -->
-    <div class="card next-card hidden" id="next-card">
-      <div class="card-title">Next Session Working Weight</div>
-      <div class="next-weight" id="next-w">—</div>
-      <div class="next-note">
-        Record Set 4 reps, then use this weight as your working weight next session.
-        Your 1RM has been updated based on today's performance.
-      </div>
-      <button class="btn-primary green" onclick="newSession()">Start New Session →</button>
-    </div>
-
-  </div><!-- end sess-view -->
+  <!-- ═══ SESSION VIEW ═══ -->
+  <div id="sess-view" class="hidden"></div>
 
 </div><!-- end app -->
 
-<!-- ═══════════════ CHAT ═══════════════ -->
+<!-- ═══ CHAT ═══ -->
 <button class="chat-fab" onclick="toggleChat()" title="Ask the coach">💬</button>
-
 <div class="chat-panel" id="chat-panel">
   <div class="chat-header">
     <div class="chat-header-left">
@@ -827,7 +313,7 @@
   </div>
 </div>
 
-<!-- ═══════════════ 1RM ESTIMATOR MODAL ═══════════════ -->
+<!-- ═══ 1RM ESTIMATOR MODAL ═══ -->
 <div class="overlay" id="est-overlay" onclick="overlayClick(event)">
   <div class="modal">
     <h3>Estimate Your 1RM</h3>
@@ -854,30 +340,36 @@
 </div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 
 const EXERCISES = {
-  bench:    'Bench Press',
-  press:    'Overhead Press',
-  squat:    'Back Squat',
-  deadlift: 'Deadlift',
-  rdl:      'Romanian DL',
+  deadlift: { name: 'Deadlift',            em: '⛏️' },
+  press:    { name: 'Overhead Press',      em: '💪' },
+  bench:    { name: 'Bench Press',         em: '🏋️' },
+  landmine: { name: 'Landmine Row',        em: '↗️' },
+  squat:    { name: 'Back Squat',          em: '🦵' },
+  chinup:   { name: 'Weighted Chin-ups',   em: '🔝' },
+};
+
+const DAYS = {
+  deadlift: { name: 'Deadlift Day', em: '⛏️', exercises: ['deadlift', 'press'] },
+  bench:    { name: 'Bench Day',    em: '🏋️', exercises: ['bench', 'landmine'] },
+  squat:    { name: 'Squat Day',    em: '🦵', exercises: ['squat', 'chinup'] },
 };
 
 const CONFIGS = {
   10: {
     label: 'APRE 10',
-    pct: 0.75,
-    target: 10,
+    pct: 0.75, target: 10,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps: 10, s2Pct: 0.75,
     desc: 'Endurance phase — builds work capacity and volume tolerance. 2 warm-up sets, then go to technical failure at your working weight.',
     adj: [
       { max: 6,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
-      { max: 8,        lbs: -5,  kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
-      { max: 11,       lbs:  0,  kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
-      { max: 16,       lbs:  5,  kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
-      { max: Infinity, lbs: 10,  kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
+      { max: 8,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
+      { max: 11,       lbs:   0, kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
+      { max: 16,       lbs:   5, kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
+      { max: Infinity, lbs:  10, kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
     ],
     adjRanges: [
       { range: '0 – 6',   lbs: '−5 to −10', kg: '−2.5 to −5' },
@@ -889,17 +381,16 @@ const CONFIGS = {
   },
   6: {
     label: 'APRE 6',
-    pct: 0.83,
-    target: 6,
+    pct: 0.83, target: 6,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps:  6, s2Pct: 0.75,
     desc: 'Submaximal strength phase — develops near-maximal strength. 2 warm-up sets, then go to technical failure at your working weight.',
     adj: [
       { max: 2,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
-      { max: 4,        lbs: -5,  kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
-      { max: 7,        lbs:  0,  kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
-      { max: 12,       lbs:  5,  kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
-      { max: Infinity, lbs: 10,  kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
+      { max: 4,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
+      { max: 7,        lbs:   0, kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
+      { max: 12,       lbs:   5, kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
+      { max: Infinity, lbs:  10, kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
     ],
     adjRanges: [
       { range: '0 – 2',  lbs: '−5 to −10', kg: '−2.5 to −5' },
@@ -911,17 +402,16 @@ const CONFIGS = {
   },
   3: {
     label: 'APRE 3',
-    pct: 0.92,
-    target: 3,
+    pct: 0.92, target: 3,
     s1Reps: 6, s1Pct: 0.50,
     s2Reps: 3, s2Pct: 0.75,
     desc: 'Absolute strength/power phase — develops maximal strength output. 2 warm-up sets, then go to technical failure at your working weight.',
     adj: [
       { max: 1,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
-      { max: 2,        lbs: -5,  kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
-      { max: 4,        lbs:  0,  kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
-      { max: 6,        lbs:  5,  kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
-      { max: Infinity, lbs: 10,  kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
+      { max: 2,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
+      { max: 4,        lbs:   0, kg:  0,   dir: 'same', text: 'Right on target — maintain weight' },
+      { max: 6,        lbs:   5, kg:  2.5, dir: 'up',   text: 'Above target — increase load' },
+      { max: Infinity, lbs:  10, kg:  5,   dir: 'up',   text: 'Well above target — significant increase' },
     ],
     adjRanges: [
       { range: '0 – 1', lbs: '−5 to −10', kg: '−2.5 to −5' },
@@ -933,20 +423,18 @@ const CONFIGS = {
   },
 };
 
-// ─── STATE ──────────────────────────────────────────────────────────────────
+// ─── STATE ────────────────────────────────────────────────────────────────────
 
 const S = {
-  exercise:    null,
-  variant:     null,
-  unit:        'lbs',
-  inputMode:   '1rm',    // '1rm' | 'working'
-  inputWeight: null,
-  working:     null,
-  s3Reps:      null,
-  adjWeight:   null,
+  day:  null,
+  unit: 'lbs',
+  exs:  [
+    { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null },
+    { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null },
+  ],
 };
 
-// ─── HELPERS ────────────────────────────────────────────────────────────────
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 function snap(w) {
   const inc = S.unit === 'lbs' ? 5 : 2.5;
@@ -959,19 +447,122 @@ function getAdj(cfg, reps) {
   return cfg.adj.find(a => reps <= a.max) ?? cfg.adj.at(-1);
 }
 
-// ─── SETUP HANDLERS ─────────────────────────────────────────────────────────
+function adjMeaning(lbs) {
+  if (lbs.startsWith('−') || lbs.startsWith('-')) return 'Reduce load';
+  if (lbs === 'Same') return 'On target';
+  return 'Increase load';
+}
 
-function selEx(btn) {
-  document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
+// ─── STEP 1: DAY SELECTION ───────────────────────────────────────────────────
+
+function selDay(dayKey) {
+  S.day = dayKey;
+  const day = DAYS[dayKey];
+  day.exercises.forEach((exKey, i) => {
+    S.exs[i].key = exKey;
+  });
+  showStepConfig();
+}
+
+function goStepDay() {
+  document.getElementById('step-config').classList.add('hidden');
+  document.getElementById('step-day').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── STEP 2: EXERCISE CONFIG ──────────────────────────────────────────────────
+
+function showStepConfig(prefill) {
+  const day = DAYS[S.day];
+  document.getElementById('config-day-label').textContent = `${day.em}  ${day.name}`;
+  document.getElementById('ex-config-cards').innerHTML =
+    S.exs.map((_, i) => renderExConfigCard(i)).join('');
+
+  if (prefill) {
+    S.exs.forEach((ex, i) => {
+      if (prefill[i] != null) {
+        document.getElementById(`ex${i}-w-input`).value = prefill[i];
+        document.getElementById(`ex${i}-mode-hint`).textContent =
+          'Enter your working weight directly (adjusted weight from last session).';
+        const estLink = document.getElementById(`ex${i}-est-link`);
+        if (estLink) estLink.style.display = 'none';
+      }
+    });
+  }
+
+  document.getElementById('sess-view').classList.add('hidden');
+  document.getElementById('step-day').classList.add('hidden');
+  document.getElementById('step-config').classList.remove('hidden');
+  checkReady();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderExConfigCard(i) {
+  const ex = S.exs[i];
+  const exInfo = EXERCISES[ex.key];
+  const va = v => ex.variant === v ? ' active' : '';
+  const ma = m => ex.inputMode === m ? ' active' : '';
+  const prefillVal = ex.adjWeight ?? '';
+  const modeHint = ex.inputMode === 'working'
+    ? 'Enter your working weight directly (adjusted weight from last session).'
+    : 'Enter your 1-rep max — working weight will be calculated automatically.';
+
+  return `
+    <div class="card">
+      <div style="font-size:16px;font-weight:800;margin-bottom:14px;">${exInfo.em}  ${exInfo.name}</div>
+
+      <div class="sect-label" style="margin-top:0;">APRE Variant</div>
+      <div class="var-row" style="margin-bottom:14px;">
+        <button class="var-btn${va(10)}" onclick="selVarEx(${i},10,this)">
+          <div class="v-n">10</div><div class="v-l">Endurance</div><div class="v-p">75% 1RM</div>
+        </button>
+        <button class="var-btn${va(6)}" onclick="selVarEx(${i},6,this)">
+          <div class="v-n">6</div><div class="v-l">Strength</div><div class="v-p">83% 1RM</div>
+        </button>
+        <button class="var-btn${va(3)}" onclick="selVarEx(${i},3,this)">
+          <div class="v-n">3</div><div class="v-l">Power</div><div class="v-p">92% 1RM</div>
+        </button>
+      </div>
+
+      <div class="sect-label">Starting Weight</div>
+      <div class="mode-row">
+        <button class="mode-btn${ma('1rm')}"     onclick="selModeEx(${i},'1rm',this)">Enter 1RM</button>
+        <button class="mode-btn${ma('working')}" onclick="selModeEx(${i},'working',this)">Enter Working Weight</button>
+      </div>
+
+      <div class="w-input-wrap">
+        <input type="number" id="ex${i}-w-input" class="w-input" placeholder="0" min="0" step="1"
+               inputmode="decimal" value="${prefillVal}" oninput="checkReady()">
+        <span class="w-unit">${S.unit}</span>
+      </div>
+      <div id="ex${i}-mode-hint" style="font-size:11px;color:var(--muted2);margin-top:4px;">${modeHint}</div>
+      ${ex.inputMode !== 'working'
+        ? `<span class="est-link" id="ex${i}-est-link" onclick="openEst(${i})">Don't know your 1RM? Estimate it →</span>`
+        : ''}
+    </div>
+  `;
+}
+
+function selVarEx(i, variant, btn) {
+  btn.closest('.card').querySelectorAll('.var-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  S.exercise = btn.dataset.ex;
+  S.exs[i].variant = variant;
   checkReady();
 }
 
-function selVar(btn) {
-  document.querySelectorAll('.var-btn').forEach(b => b.classList.remove('active'));
+function selModeEx(i, mode, btn) {
+  btn.closest('.card').querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  S.variant = parseInt(btn.dataset.var);
+  S.exs[i].inputMode = mode;
+  const hint = document.getElementById(`ex${i}-mode-hint`);
+  const estLink = document.getElementById(`ex${i}-est-link`);
+  if (mode === '1rm') {
+    hint.textContent = 'Enter your 1-rep max — working weight will be calculated automatically.';
+    if (estLink) estLink.style.display = '';
+  } else {
+    hint.textContent = 'Enter your working weight directly (adjusted weight from last session).';
+    if (estLink) estLink.style.display = 'none';
+  }
   checkReady();
 }
 
@@ -979,43 +570,42 @@ function selUnit(btn) {
   document.querySelectorAll('.tog-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   S.unit = btn.dataset.unit;
-  document.getElementById('w-unit').textContent = S.unit;
+  document.querySelectorAll('.w-unit').forEach(el => el.textContent = S.unit);
   document.getElementById('est-w-lbl').textContent = `Weight (${S.unit})`;
   checkReady();
 }
 
-function selMode(btn) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  S.inputMode = btn.dataset.mode;
-  const hint = document.getElementById('mode-hint');
-  if (S.inputMode === '1rm') {
-    hint.textContent = 'Enter your 1-rep max — working weight will be calculated automatically.';
-    document.querySelector('.est-link').style.display = '';
-  } else {
-    hint.textContent = 'Enter your working weight directly (e.g. the adjusted weight from your last session).';
-    document.querySelector('.est-link').style.display = 'none';
-  }
-  checkReady();
-}
-
 function checkReady() {
-  const v = parseFloat(document.getElementById('w-input').value);
-  const ok = S.exercise && S.variant && v > 0;
-  document.getElementById('start-btn').disabled = !ok;
+  const ready = S.exs.every((ex, i) => {
+    const inp = document.getElementById(`ex${i}-w-input`);
+    return ex.variant && inp && parseFloat(inp.value) > 0;
+  });
+  const btn = document.getElementById('calc-btn');
+  if (btn) btn.disabled = !ready;
 }
 
-// ─── ESTIMATOR ──────────────────────────────────────────────────────────────
+// ─── 1RM ESTIMATOR ───────────────────────────────────────────────────────────
 
-function openEst() {
+let _estTarget = 0;
+
+function openEst(exIdx) {
+  _estTarget = exIdx;
+  document.getElementById('est-w-lbl').textContent = `Weight (${S.unit})`;
+  document.getElementById('est-w').value = '';
+  document.getElementById('est-r').value = '';
+  document.getElementById('est-val').textContent = '—';
+  document.getElementById('est-apply-btn').disabled = true;
   document.getElementById('est-overlay').classList.add('open');
 }
+
 function closeEst() {
   document.getElementById('est-overlay').classList.remove('open');
 }
+
 function overlayClick(e) {
   if (e.target === document.getElementById('est-overlay')) closeEst();
 }
+
 function calcEst() {
   const w = parseFloat(document.getElementById('est-w').value);
   const r = parseInt(document.getElementById('est-r').value);
@@ -1030,78 +620,127 @@ function calcEst() {
     btn.disabled = true;
   }
 }
+
 function applyEst() {
   const btn = document.getElementById('est-apply-btn');
   if (!btn._val) return;
-  document.getElementById('w-input').value = btn._val;
-  // ensure 1rm mode is active
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-mode="1rm"]').classList.add('active');
-  S.inputMode = '1rm';
+  const inp = document.getElementById(`ex${_estTarget}-w-input`);
+  inp.value = btn._val;
+  S.exs[_estTarget].inputMode = '1rm';
   closeEst();
   checkReady();
 }
 
-// ─── SESSION ────────────────────────────────────────────────────────────────
+// ─── SESSION ──────────────────────────────────────────────────────────────────
 
 function startSession() {
-  const inputW = parseFloat(document.getElementById('w-input').value);
-  const cfg = CONFIGS[S.variant];
+  S.exs.forEach((ex, i) => {
+    const inputW = parseFloat(document.getElementById(`ex${i}-w-input`).value);
+    const cfg = CONFIGS[ex.variant];
+    ex.working = ex.inputMode === '1rm' ? snap(inputW * cfg.pct) : snap(inputW);
+    ex.s3Reps = null;
+    ex.adjWeight = null;
+  });
 
-  if (S.inputMode === '1rm') {
-    S.working = snap(inputW * cfg.pct);
-  } else {
-    S.working = snap(inputW);
-  }
-
-  S.inputWeight = inputW;
-  S.s3Reps = null;
-
-  const s1w = snap(S.working * cfg.s1Pct);
-  const s2w = snap(S.working * cfg.s2Pct);
-
-  // Populate session view
-  document.getElementById('sess-name').textContent  = EXERCISES[S.exercise];
-  document.getElementById('sess-badge').textContent = cfg.label;
-  document.getElementById('sess-sub').textContent   =
-    S.inputMode === '1rm'
-      ? `1RM: ${fmt(inputW)}  ·  Working: ${fmt(S.working)}`
-      : `Working weight: ${fmt(S.working)}`;
-  document.getElementById('sess-info').textContent  = cfg.desc;
-
-  document.getElementById('s1-w').textContent = fmt(s1w);
-  document.getElementById('s1-r').innerHTML   = `<strong>${cfg.s1Reps} reps</strong>`;
-
-  document.getElementById('s2-w').textContent = fmt(s2w);
-  document.getElementById('s2-r').innerHTML   = `<strong>${cfg.s2Reps} reps</strong>`;
-
-  document.getElementById('s3-w').textContent  = fmt(S.working);
-  document.getElementById('s3-target').textContent = `~${cfg.target} reps`;
-
-  // Reset interactive elements
-  document.getElementById('s3-reps-in').value = '';
-  document.getElementById('s3-input-row').classList.remove('hidden');
-  document.getElementById('s3-logged').classList.add('hidden');
-  document.getElementById('s3-card').classList.remove('done');
-
-  document.getElementById('s4-locked').classList.remove('hidden');
-  document.getElementById('s4-reveal').classList.add('hidden');
-  document.getElementById('s4-card').classList.remove('done');
-
-  document.getElementById('next-card').classList.add('hidden');
-  document.getElementById('adj-table-wrap').classList.add('hidden');
-
-  // Build adjustment table
-  buildAdjTable(cfg);
-
-  // Switch views
-  document.getElementById('setup-view').classList.add('hidden');
+  renderSessionView();
+  document.getElementById('step-config').classList.add('hidden');
   document.getElementById('sess-view').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function buildAdjTable(cfg) {
-  const tbody = document.getElementById('adj-tbody');
+function renderSessionView() {
+  const day = DAYS[S.day];
+  document.getElementById('sess-view').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;">
+      <div style="font-size:18px;font-weight:800;">${day.em}  ${day.name}</div>
+      <button class="btn-ghost" onclick="goSetup()">Reset</button>
+    </div>
+    ${S.exs.map((_, i) => renderExSection(i)).join('<div class="ex-divider"><div class="ex-divider-line"></div><div class="ex-divider-label">Next Exercise</div><div class="ex-divider-line"></div></div>')}
+    <div class="card next-card hidden" id="next-session-card" style="margin-top:10px;">
+      <div class="card-title">Next Session — Working Weights</div>
+      <div id="next-session-weights"></div>
+      <button class="btn-primary green" onclick="newSession()">Start New Session →</button>
+    </div>
+  `;
+  S.exs.forEach((_, i) => buildAdjTable(i));
+}
+
+function renderExSection(i) {
+  const ex = S.exs[i];
+  const cfg = CONFIGS[ex.variant];
+  const exInfo = EXERCISES[ex.key];
+  const s1w = snap(ex.working * cfg.s1Pct);
+  const s2w = snap(ex.working * cfg.s2Pct);
+
+  return `
+    <div class="card">
+      <div class="sess-hdr">
+        <div class="sess-hdr-left">
+          <div class="sess-name">${exInfo.em}  ${exInfo.name}</div>
+          <div class="sess-sub">${cfg.label} · Working: ${fmt(ex.working)}</div>
+        </div>
+        <span class="badge">${cfg.label}</span>
+      </div>
+      <div class="info-banner">${cfg.desc}</div>
+
+      <div class="set-card warmup">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">1</div><div class="set-type">Warm-up</div></div></div>
+        <div class="set-w">${fmt(s1w)}</div>
+        <div class="set-r"><strong>${cfg.s1Reps} reps</strong></div>
+      </div>
+
+      <div class="set-card warmup">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">2</div><div class="set-type">Warm-up</div></div></div>
+        <div class="set-w">${fmt(s2w)}</div>
+        <div class="set-r"><strong>${cfg.s2Reps} reps</strong></div>
+      </div>
+
+      <div class="set-card working" id="ex${i}-s3-card">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">3</div><div class="set-type">Working · AMRAP</div></div></div>
+        <div class="set-w">${fmt(ex.working)}</div>
+        <div class="set-r">Target: <strong>~${cfg.target} reps</strong> — stop at technical failure</div>
+        <div id="ex${i}-s3-input-row" class="reps-row">
+          <input type="number" id="ex${i}-s3-reps" class="reps-in" placeholder="Reps done" min="0" max="60" inputmode="numeric">
+          <button class="reps-log-btn" onclick="logSet3(${i})">Log</button>
+        </div>
+        <div id="ex${i}-s3-logged" class="hidden" style="margin-top:10px;font-size:13px;color:var(--green);font-weight:600;">
+          ✓ <span id="ex${i}-s3-logged-txt"></span>
+        </div>
+      </div>
+
+      <div class="set-card working" id="ex${i}-s4-card">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">4</div><div class="set-type">Working · AMRAP</div></div></div>
+        <div id="ex${i}-s4-locked" style="font-size:13px;color:var(--muted2);padding:4px 0;">
+          Complete Set 3 to unlock adjusted weight
+        </div>
+        <div id="ex${i}-s4-reveal" class="hidden">
+          <div class="set-w" id="ex${i}-s4-w">—</div>
+          <div class="set-r">Go to technical failure — this sets next session's target</div>
+          <div class="s4-feedback">
+            <div class="s4-fb-lbl">Autoregulation feedback</div>
+            <div class="s4-fb-txt" id="ex${i}-s4-fb"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:4px;">
+        <button class="btn-ghost" style="width:100%;font-size:12px;" onclick="toggleTable(${i})">
+          View full adjustment chart ↕
+        </button>
+        <div id="ex${i}-adj-table-wrap" class="hidden" style="margin-top:8px;">
+          <table class="adj-table">
+            <thead><tr><th>Reps (Set 3)</th><th>Adjustment</th><th>Meaning</th></tr></thead>
+            <tbody id="ex${i}-adj-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildAdjTable(i) {
+  const cfg = CONFIGS[S.exs[i].variant];
+  const tbody = document.getElementById(`ex${i}-adj-tbody`);
   tbody.innerHTML = '';
   cfg.adjRanges.forEach(row => {
     const tr = document.createElement('tr');
@@ -1110,78 +749,87 @@ function buildAdjTable(cfg) {
   });
 }
 
-function adjMeaning(lbs) {
-  if (lbs.startsWith('−') || lbs.startsWith('-')) return 'Reduce load';
-  if (lbs === 'Same') return 'On target';
-  return 'Increase load';
-}
+function logSet3(i) {
+  const ex = S.exs[i];
+  const repsEl = document.getElementById(`ex${i}-s3-reps`);
+  const reps = parseInt(repsEl.value);
+  if (!reps || reps < 0) { repsEl.focus(); return; }
 
-function logSet3() {
-  const reps = parseInt(document.getElementById('s3-reps-in').value);
-  if (!reps || reps < 0) {
-    document.getElementById('s3-reps-in').focus();
-    return;
-  }
-
-  S.s3Reps = reps;
-  const cfg = CONFIGS[S.variant];
+  ex.s3Reps = reps;
+  const cfg = CONFIGS[ex.variant];
   const adj = getAdj(cfg, reps);
   const adjAmt = S.unit === 'lbs' ? adj.lbs : adj.kg;
-  S.adjWeight  = Math.max(0, snap(S.working + adjAmt));
+  ex.adjWeight = Math.max(0, snap(ex.working + adjAmt));
 
-  // Mark set 3 done
-  document.getElementById('s3-input-row').classList.add('hidden');
-  document.getElementById('s3-logged').classList.remove('hidden');
-  document.getElementById('s3-logged-txt').textContent =
-    `${reps} rep${reps === 1 ? '' : 's'} logged`;
-  document.getElementById('s3-card').classList.add('done');
+  document.getElementById(`ex${i}-s3-input-row`).classList.add('hidden');
+  document.getElementById(`ex${i}-s3-logged`).classList.remove('hidden');
+  document.getElementById(`ex${i}-s3-logged-txt`).textContent = `${reps} rep${reps === 1 ? '' : 's'} logged`;
+  document.getElementById(`ex${i}-s3-card`).classList.add('done');
 
-  // Reveal set 4
-  document.getElementById('s4-locked').classList.add('hidden');
-  document.getElementById('s4-reveal').classList.remove('hidden');
-  document.getElementById('s4-card').classList.add('done');
+  document.getElementById(`ex${i}-s4-locked`).classList.add('hidden');
+  document.getElementById(`ex${i}-s4-reveal`).classList.remove('hidden');
+  document.getElementById(`ex${i}-s4-card`).classList.add('done');
 
-  const s4wEl = document.getElementById('s4-w');
-  s4wEl.textContent  = fmt(S.adjWeight);
-  s4wEl.className    = `set-w ${adj.dir}`;
+  const s4wEl = document.getElementById(`ex${i}-s4-w`);
+  s4wEl.textContent = fmt(ex.adjWeight);
+  s4wEl.className = `set-w ${adj.dir}`;
 
-  const fbEl = document.getElementById('s4-fb');
-  fbEl.textContent = `${reps} rep${reps===1?'':'s'} @ ${fmt(S.working)} — ${adj.text}`;
-  fbEl.className   = `s4-fb-txt ${adj.dir}`;
+  const fbEl = document.getElementById(`ex${i}-s4-fb`);
+  fbEl.textContent = `${reps} rep${reps === 1 ? '' : 's'} @ ${fmt(ex.working)} — ${adj.text}`;
+  fbEl.className = `s4-fb-txt ${adj.dir}`;
 
-  // Highlight adjustment table row
-  highlightAdjRow(cfg, reps);
+  highlightAdjRow(i, cfg, reps);
 
-  // Show next session card
-  document.getElementById('next-w').textContent = fmt(S.adjWeight);
-  document.getElementById('next-card').classList.remove('hidden');
+  if (S.exs.every(e => e.s3Reps !== null)) showNextSession();
 
-  document.getElementById('s4-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById(`ex${i}-s4-card`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function highlightAdjRow(cfg, reps) {
+function highlightAdjRow(i, cfg, reps) {
   const adjIdx = cfg.adj.findIndex(a => reps <= a.max);
-  const rows = document.getElementById('adj-tbody').querySelectorAll('tr');
-  rows.forEach((r, i) => {
+  document.getElementById(`ex${i}-adj-tbody`).querySelectorAll('tr').forEach((r, j) => {
     r.className = '';
-    if (i === adjIdx) {
-      const dir = cfg.adj[i].dir;
+    if (j === adjIdx) {
+      const dir = cfg.adj[j].dir;
       r.className = dir === 'up' ? 'hl-up' : dir === 'same' ? 'hl-same' : 'hl-down';
     }
   });
 }
 
-function toggleTable() {
-  document.getElementById('adj-table-wrap').classList.toggle('hidden');
+function toggleTable(i) {
+  document.getElementById(`ex${i}-adj-table-wrap`).classList.toggle('hidden');
+}
+
+function showNextSession() {
+  document.getElementById('next-session-weights').innerHTML = S.exs.map(ex => `
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:2px;">
+        ${EXERCISES[ex.key].em}  ${EXERCISES[ex.key].name}
+      </div>
+      <div class="next-weight">${fmt(ex.adjWeight)}</div>
+    </div>
+  `).join('');
+  const card = document.getElementById('next-session-card');
+  card.classList.remove('hidden');
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function goSetup() {
   document.getElementById('sess-view').classList.add('hidden');
-  document.getElementById('setup-view').classList.remove('hidden');
+  document.getElementById('step-config').classList.add('hidden');
+  document.getElementById('step-day').classList.remove('hidden');
+  S.day = null;
+  S.exs.forEach(ex => Object.assign(ex, { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null }));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─── CHAT ───────────────────────────────────────────────────────────────────
+function newSession() {
+  const prevWeights = S.exs.map(ex => ex.adjWeight);
+  S.exs.forEach(ex => Object.assign(ex, { working: null, s3Reps: null, adjWeight: null, inputMode: 'working' }));
+  showStepConfig(prevWeights);
+}
+
+// ─── CHAT ─────────────────────────────────────────────────────────────────────
 
 function toggleChat() {
   document.getElementById('chat-panel').classList.toggle('open');
@@ -1196,10 +844,7 @@ function autoResize(el) {
 }
 
 function chatKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendChat();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
 }
 
 async function sendChat() {
@@ -1213,14 +858,17 @@ async function sendChat() {
   input.style.height = 'auto';
 
   appendBubble('user', msg);
-
   const typing = appendBubble('assistant', '…', 'typing');
 
   const context = {};
-  if (S.exercise) context.exercise = EXERCISES[S.exercise];
-  if (S.variant)  context.variant  = S.variant;
-  if (S.working)  context.workingWeight = S.working;
-  if (S.unit)     context.unit = S.unit;
+  if (S.day) context.day = DAYS[S.day].name;
+  S.exs.forEach((ex, i) => {
+    if (ex.key) {
+      context[`exercise${i + 1}`] = EXERCISES[ex.key].name;
+      if (ex.variant)  context[`variant${i + 1}`]  = `APRE ${ex.variant}`;
+      if (ex.working)  context[`working${i + 1}`]  = `${ex.working} ${S.unit}`;
+    }
+  });
 
   try {
     const res = await fetch('/api/chat', {
@@ -1248,22 +896,6 @@ function appendBubble(role, text, extra) {
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
   return div;
-}
-
-function newSession() {
-  // Pre-fill adjusted weight as working weight for next session
-  document.getElementById('w-input').value = S.adjWeight;
-
-  // Switch mode to "working weight" so user doesn't need to recalculate 1RM
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-mode="working"]').classList.add('active');
-  S.inputMode = 'working';
-  document.getElementById('mode-hint').textContent =
-    'Enter your working weight directly (e.g. the adjusted weight from your last session).';
-  document.querySelector('.est-link').style.display = 'none';
-
-  goSetup();
-  checkReady();
 }
 </script>
 </body>

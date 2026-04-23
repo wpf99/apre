@@ -16,9 +16,10 @@ APRE adapts training load based on real-time performance within each session —
 - **APRE 6** (83% of 1RM): Submaximal strength phase, target ~6 reps per working set
 - **APRE 3** (92% of 1RM): Absolute strength/power phase, target ~3 reps per working set
 
-## Four-Set Structure
-1. **Set 1 — Warm-up**: Reps at 50% of working weight, primes the movement pattern
-2. **Set 2 — Warm-up**: Reps at 75% of working weight, builds toward working intensity
+## Five-Set Structure
+0. **Set 0 — Warm-up**: General movement prep and unloaded/light rehearsal reps
+1. **Set 1 — Ramp-up**: Reps at 50% of working weight, primes the movement pattern
+2. **Set 2 — Ramp-up**: Reps at 75% of working weight, builds toward working intensity
 3. **Set 3 — Working (AMRAP)**: Go to technical failure at working weight
 4. **Set 4 — Working (AMRAP)**: Adjusted weight based on Set 3 reps — this is the autoregulation step
 
@@ -105,3 +106,8 @@ async def chat(req: ChatRequest):
 @app.get("/")
 async def serve_index():
     return FileResponse("index.html")
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}

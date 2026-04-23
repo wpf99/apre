@@ -104,6 +104,11 @@
     .w-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted2); font-size: 13px; font-weight: 600; pointer-events: none; }
     .est-link { display: block; text-align: center; font-size: 12px; color: var(--accent); cursor: pointer; text-decoration: none; margin-top: 2px; padding: 4px; }
     .est-link:hover { text-decoration: underline; }
+    .name-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border2); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 16px; font-weight: 600; color: var(--text); outline: none; transition: border-color .15s; }
+    .name-input:focus { border-color: var(--accent); }
+    .lift-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .lift-card-top .lift-title { font-size: 16px; font-weight: 800; }
+    .setup-btn-row { display: flex; gap: 8px; margin-bottom: 10px; }
 
     /* ── BTN PRIMARY ── */
     .btn-primary { width: 100%; background: var(--accent); border: none; border-radius: var(--radius); padding: 15px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer; transition: background .15s, transform .1s; margin-top: 6px; }
@@ -283,46 +288,13 @@
     <p>Autoregulatory Progressive Resistance Exercise</p>
   </header>
 
-  <!-- ═══ STEP 1: DAY SELECTION ═══ -->
-  <div id="step-day">
+  <!-- ═══ SETUP VIEW ═══ -->
+  <div id="step-setup">
     <div class="card">
-      <div class="card-title">Training Day</div>
-      <div class="day-grid">
-        <button class="day-btn" onclick="selDay('deadlift')">
-          <div class="day-em">⛏️</div>
-          <div><div class="day-name">Deadlift Day</div><div class="day-subs">Deadlift · Overhead Press</div></div>
-        </button>
-        <button class="day-btn" onclick="selDay('bench')">
-          <div class="day-em">🏋️</div>
-          <div><div class="day-name">Bench Day</div><div class="day-subs">Bench Press · Landmine Row</div></div>
-        </button>
-        <button class="day-btn" onclick="selDay('squat')">
-          <div class="day-em">🦵</div>
-          <div><div class="day-name">Squat Day</div><div class="day-subs">Back Squat · Weighted Chin-ups</div></div>
-        </button>
+      <div class="card-title">Session Setup</div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.6;">
+        Enter 1 to 4 lifts for this session. Each lift gets its own APRE 3, 6, or 10 protocol and starting weight.
       </div>
-    </div>
-    <div class="hist-btn-row">
-      <button class="btn-ghost" onclick="showHistory()" id="hist-nav-btn" style="font-size:12px;gap:6px;display:flex;align-items:center;">
-        📋 <span id="hist-nav-label">Workout History</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- ═══ HISTORY VIEW ═══ -->
-  <div id="history-view" class="hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;">
-      <div style="font-size:18px;font-weight:800;">Workout History</div>
-      <button class="btn-ghost" onclick="hideHistory()" style="font-size:12px;">← Back</button>
-    </div>
-    <div id="hist-content"></div>
-  </div>
-
-  <!-- ═══ STEP 2: EXERCISE CONFIG ═══ -->
-  <div id="step-config" class="hidden">
-    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;">
-      <div id="config-day-label" style="font-size:15px;font-weight:800;"></div>
-      <button class="btn-ghost" style="font-size:11px;" onclick="goStepDay()">← Change Day</button>
     </div>
 
     <div class="card">
@@ -335,7 +307,23 @@
 
     <div id="ex-config-cards"></div>
 
-    <button class="btn-primary" id="calc-btn" onclick="startSession()" disabled>Calculate 5-Set Plan</button>
+    <div class="setup-btn-row">
+      <button class="btn-ghost" id="add-lift-btn" onclick="addLift()" style="flex:1;">+ Add Lift</button>
+      <button class="btn-ghost" onclick="showHistory()" id="hist-nav-btn" style="flex:1;font-size:12px;gap:6px;display:flex;align-items:center;justify-content:center;">
+        📋 <span id="hist-nav-label">Workout History</span>
+      </button>
+    </div>
+
+    <button class="btn-primary" id="calc-btn" onclick="startSession()" disabled>Build Workout</button>
+  </div>
+
+  <!-- ═══ HISTORY VIEW ═══ -->
+  <div id="history-view" class="hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;">
+      <div style="font-size:18px;font-weight:800;">Workout History</div>
+      <button class="btn-ghost" onclick="hideHistory()" style="font-size:12px;">← Back</button>
+    </div>
+    <div id="hist-content"></div>
   </div>
 
   <!-- ═══ SESSION VIEW ═══ -->
@@ -394,20 +382,7 @@
 <script>
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const EXERCISES = {
-  deadlift: { name: 'Deadlift',            em: '⛏️' },
-  press:    { name: 'Overhead Press',      em: '💪' },
-  bench:    { name: 'Bench Press',         em: '🏋️' },
-  landmine: { name: 'Landmine Row',        em: '↗️' },
-  squat:    { name: 'Back Squat',          em: '🦵' },
-  chinup:   { name: 'Weighted Chin-ups',   em: '🔝' },
-};
-
-const DAYS = {
-  deadlift: { name: 'Deadlift Day', em: '⛏️', exercises: ['deadlift', 'press'] },
-  bench:    { name: 'Bench Day',    em: '🏋️', exercises: ['bench', 'landmine'] },
-  squat:    { name: 'Squat Day',    em: '🦵', exercises: ['squat', 'chinup'] },
-};
+const MAX_LIFTS = 4;
 
 const CONFIGS = {
   10: {
@@ -415,7 +390,7 @@ const CONFIGS = {
     pct: 0.75, target: 10,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps: 10, s2Pct: 0.75,
-    desc: 'Endurance phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
+    desc: 'Endurance phase — separate warm-up, 2 ramp-up sets, then 3 auto-regulated working sets.',
     adj: [
       { max: 6,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 8,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -436,7 +411,7 @@ const CONFIGS = {
     pct: 0.83, target: 6,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps:  6, s2Pct: 0.75,
-    desc: 'Submaximal strength phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
+    desc: 'Submaximal strength phase — separate warm-up, 2 ramp-up sets, then 3 auto-regulated working sets.',
     adj: [
       { max: 2,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 4,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -457,7 +432,7 @@ const CONFIGS = {
     pct: 0.92, target: 3,
     s1Reps: 6, s1Pct: 0.50,
     s2Reps: 3, s2Pct: 0.75,
-    desc: 'Absolute strength/power phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
+    desc: 'Absolute strength/power phase — separate warm-up, 2 ramp-up sets, then 3 auto-regulated working sets.',
     adj: [
       { max: 1,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 2,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -478,15 +453,28 @@ const CONFIGS = {
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
 const S = {
-  day:  null,
   unit: 'lbs',
-  exs:  [
-    { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null },
-    { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null },
-  ],
+  exs:  [],
 };
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
+
+function blankExercise(overrides = {}) {
+  return {
+    name: '',
+    startWeight: '',
+    inputMode: '1rm',
+    variant: null,
+    working: null,
+    s3Reps: null,
+    s4Weight: null,
+    s4Reps: null,
+    s5Weight: null,
+    s5Reps: null,
+    nextWeight: null,
+    ...overrides,
+  };
+}
 
 function snap(w) {
   const inc = S.unit === 'lbs' ? 5 : 2.5;
@@ -495,8 +483,37 @@ function snap(w) {
 
 function fmt(w) { return `${w} ${S.unit}`; }
 
+function escapeHtml(v = '') {
+  return String(v)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function getLiftLabel(ex, i) {
+  return ex.name.trim() || `Lift ${i + 1}`;
+}
+
+function getSessionLabel(exercises = S.exs) {
+  const names = exercises.map(ex => ex.name.trim()).filter(Boolean);
+  if (names.length === 1) return names[0];
+  if (names.length > 1) return `${names.length} Lift Session`;
+  return 'Custom Session';
+}
+
 function getAdj(cfg, reps) {
   return cfg.adj.find(a => reps <= a.max) ?? cfg.adj.at(-1);
+}
+
+function getAdjustedLoad(cfg, baseWeight, reps) {
+  const adj = getAdj(cfg, reps);
+  const adjAmt = S.unit === 'lbs' ? adj.lbs : adj.kg;
+  return {
+    adj,
+    nextWeight: Math.max(0, snap(baseWeight + adjAmt)),
+  };
 }
 
 function adjMeaning(lbs) {
@@ -505,65 +522,43 @@ function adjMeaning(lbs) {
   return 'Increase load';
 }
 
-// ─── STEP 1: DAY SELECTION ───────────────────────────────────────────────────
+// ─── SETUP ────────────────────────────────────────────────────────────────────
 
-function selDay(dayKey) {
-  S.day = dayKey;
-  const day = DAYS[dayKey];
-  day.exercises.forEach((exKey, i) => {
-    S.exs[i].key = exKey;
-  });
-  showStepConfig();
-}
-
-function goStepDay() {
-  document.getElementById('step-config').classList.add('hidden');
-  document.getElementById('step-day').classList.remove('hidden');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ─── STEP 2: EXERCISE CONFIG ──────────────────────────────────────────────────
-
-function showStepConfig(prefill) {
-  const day = DAYS[S.day];
-  document.getElementById('config-day-label').textContent = `${day.em}  ${day.name}`;
+function showStepSetup() {
   document.getElementById('ex-config-cards').innerHTML =
     S.exs.map((_, i) => renderExConfigCard(i)).join('');
 
-  if (prefill) {
-    S.exs.forEach((ex, i) => {
-      if (prefill[i] != null) {
-        document.getElementById(`ex${i}-w-input`).value = prefill[i];
-        document.getElementById(`ex${i}-mode-hint`).textContent =
-          'Enter your working weight directly (adjusted weight from last session).';
-        const estLink = document.getElementById(`ex${i}-est-link`);
-        if (estLink) estLink.style.display = 'none';
-      }
-    });
-  }
+  const addBtn = document.getElementById('add-lift-btn');
+  addBtn.disabled = S.exs.length >= MAX_LIFTS;
+  addBtn.textContent = S.exs.length >= MAX_LIFTS ? '4 Lifts Max' : '+ Add Lift';
 
   document.getElementById('sess-view').classList.add('hidden');
-  document.getElementById('step-day').classList.add('hidden');
-  document.getElementById('step-config').classList.remove('hidden');
+  document.getElementById('history-view').classList.add('hidden');
+  document.getElementById('step-setup').classList.remove('hidden');
   checkReady();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderExConfigCard(i) {
   const ex = S.exs[i];
-  const exInfo = EXERCISES[ex.key];
   const va = v => ex.variant === v ? ' active' : '';
   const ma = m => ex.inputMode === m ? ' active' : '';
-  const prefillVal = ex.adjWeight ?? '';
+  const prefillVal = ex.startWeight ?? '';
   const modeHint = ex.inputMode === 'working'
     ? 'Enter your working weight directly (adjusted weight from last session).'
     : 'Enter your 1-rep max — working weight will be calculated automatically.';
 
   return `
     <div class="card">
-      <div style="font-size:16px;font-weight:800;margin-bottom:14px;">${exInfo.em}  ${exInfo.name}</div>
+      <div class="lift-card-top">
+        <div class="lift-title">Lift ${i + 1}</div>
+        ${S.exs.length > 1 ? `<button class="btn-ghost" style="font-size:11px;" onclick="removeLift(${i})">Remove</button>` : ''}
+      </div>
 
-      <div class="sect-label" style="margin-top:0;">APRE Variant</div>
+      <div class="sect-label" style="margin-top:0;">Lift Name</div>
+      <input type="text" class="name-input" placeholder="e.g. Bench Press" value="${escapeHtml(ex.name)}" oninput="setLiftName(${i}, this.value)">
+
+      <div class="sect-label">APRE Variant</div>
       <div class="var-row" style="margin-bottom:14px;">
         <button class="var-btn${va(10)}" onclick="selVarEx(${i},10,this)">
           <div class="v-n">10</div><div class="v-l">Endurance</div><div class="v-p">75% 1RM</div>
@@ -584,7 +579,7 @@ function renderExConfigCard(i) {
 
       <div class="w-input-wrap">
         <input type="number" id="ex${i}-w-input" class="w-input" placeholder="0" min="0" step="1"
-               inputmode="decimal" value="${prefillVal}" oninput="checkReady()">
+               inputmode="decimal" value="${prefillVal}" oninput="setWeightInput(${i}, this.value)">
         <span class="w-unit">${S.unit}</span>
       </div>
       <div id="ex${i}-mode-hint" style="font-size:11px;color:var(--muted2);margin-top:4px;">${modeHint}</div>
@@ -593,6 +588,16 @@ function renderExConfigCard(i) {
         : ''}
     </div>
   `;
+}
+
+function setLiftName(i, value) {
+  S.exs[i].name = value;
+  checkReady();
+}
+
+function setWeightInput(i, value) {
+  S.exs[i].startWeight = value;
+  checkReady();
 }
 
 function selVarEx(i, variant, btn) {
@@ -618,6 +623,18 @@ function selModeEx(i, mode, btn) {
   checkReady();
 }
 
+function addLift() {
+  if (S.exs.length >= MAX_LIFTS) return;
+  S.exs.push(blankExercise());
+  showStepSetup();
+}
+
+function removeLift(i) {
+  if (S.exs.length <= 1) return;
+  S.exs.splice(i, 1);
+  showStepSetup();
+}
+
 function selUnit(btn) {
   document.querySelectorAll('.tog-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -628,10 +645,9 @@ function selUnit(btn) {
 }
 
 function checkReady() {
-  const ready = S.exs.every((ex, i) => {
-    const inp = document.getElementById(`ex${i}-w-input`);
-    return ex.variant && inp && parseFloat(inp.value) > 0;
-  });
+  const ready = S.exs.length > 0 && S.exs.every(ex =>
+    ex.name.trim() && ex.variant && parseFloat(ex.startWeight) > 0
+  );
   const btn = document.getElementById('calc-btn');
   if (btn) btn.disabled = !ready;
 }
@@ -676,35 +692,38 @@ function calcEst() {
 function applyEst() {
   const btn = document.getElementById('est-apply-btn');
   if (!btn._val) return;
-  const inp = document.getElementById(`ex${_estTarget}-w-input`);
-  inp.value = btn._val;
+  S.exs[_estTarget].startWeight = btn._val;
   S.exs[_estTarget].inputMode = '1rm';
   closeEst();
-  checkReady();
+  showStepSetup();
 }
 
 // ─── SESSION ──────────────────────────────────────────────────────────────────
 
 function startSession() {
-  S.exs.forEach((ex, i) => {
-    const inputW = parseFloat(document.getElementById(`ex${i}-w-input`).value);
+  S.exs.forEach(ex => {
+    const inputW = parseFloat(ex.startWeight);
     const cfg = CONFIGS[ex.variant];
     ex.working = ex.inputMode === '1rm' ? snap(inputW * cfg.pct) : snap(inputW);
     ex.s3Reps = null;
-    ex.adjWeight = null;
+    ex.s4Weight = null;
+    ex.s4Reps = null;
+    ex.s5Weight = null;
+    ex.s5Reps = null;
+    ex.nextWeight = null;
   });
 
   renderSessionView();
-  document.getElementById('step-config').classList.add('hidden');
+  document.getElementById('step-setup').classList.add('hidden');
   document.getElementById('sess-view').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderSessionView() {
-  const day = DAYS[S.day];
+  const sessionLabel = escapeHtml(getSessionLabel());
   document.getElementById('sess-view').innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;">
-      <div style="font-size:18px;font-weight:800;">${day.em}  ${day.name}</div>
+      <div style="font-size:18px;font-weight:800;">${sessionLabel}</div>
       <button class="btn-ghost" onclick="goSetup()">Reset</button>
     </div>
     ${S.exs.map((_, i) => renderExSection(i)).join('<div class="ex-divider"><div class="ex-divider-line"></div><div class="ex-divider-label">Next Exercise</div><div class="ex-divider-line"></div></div>')}
@@ -720,23 +739,23 @@ function renderSessionView() {
 function renderExSection(i) {
   const ex = S.exs[i];
   const cfg = CONFIGS[ex.variant];
-  const exInfo = EXERCISES[ex.key];
   const s1w = snap(ex.working * cfg.s1Pct);
   const s2w = snap(ex.working * cfg.s2Pct);
+  const liftLabel = escapeHtml(getLiftLabel(ex, i));
 
   return `
     <div class="card">
       <div class="sess-hdr">
         <div class="sess-hdr-left">
-          <div class="sess-name">${exInfo.em}  ${exInfo.name}</div>
-          <div class="sess-sub">${cfg.label} · 5 sets total · Working: ${fmt(ex.working)}</div>
+          <div class="sess-name">${liftLabel}</div>
+          <div class="sess-sub">${cfg.label} · Warm-up + 5 sets · Set 3 starts at ${fmt(ex.working)}</div>
         </div>
         <span class="badge">${cfg.label}</span>
       </div>
       <div class="info-banner">${cfg.desc}</div>
 
       <div class="set-card warmup">
-        <div class="set-hdr"><div class="set-lbl"><div class="set-num">0</div><div class="set-type">Warm-up</div></div></div>
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">WU</div><div class="set-type">Warm-up</div></div></div>
         <div class="set-w" style="font-size:22px;">General Prep</div>
         <div class="set-r"><strong>5-10 min</strong> of movement prep, then a few unloaded or very light rehearsal reps</div>
       </div>
@@ -754,7 +773,7 @@ function renderExSection(i) {
       </div>
 
       <div class="set-card working" id="ex${i}-s3-card">
-        <div class="set-hdr"><div class="set-lbl"><div class="set-num">3</div><div class="set-type">Working · AMRAP</div></div></div>
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">3</div><div class="set-type">Auto-regulated · AMRAP</div></div></div>
         <div class="set-w">${fmt(ex.working)}</div>
         <div class="set-r">Target: <strong>~${cfg.target} reps</strong> — stop at technical failure</div>
         <div id="ex${i}-s3-input-row" class="reps-row">
@@ -767,16 +786,45 @@ function renderExSection(i) {
       </div>
 
       <div class="set-card working" id="ex${i}-s4-card">
-        <div class="set-hdr"><div class="set-lbl"><div class="set-num">4</div><div class="set-type">Working · AMRAP</div></div></div>
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">4</div><div class="set-type">Auto-regulated · AMRAP</div></div></div>
         <div id="ex${i}-s4-locked" style="font-size:13px;color:var(--muted2);padding:4px 0;">
-          Complete Set 3 to unlock adjusted weight
+          Complete Set 3 to unlock the next adjusted weight
         </div>
         <div id="ex${i}-s4-reveal" class="hidden">
           <div class="set-w" id="ex${i}-s4-w">—</div>
-          <div class="set-r">Go to technical failure — this sets next session's target</div>
+          <div class="set-r" id="ex${i}-s4-note">Go to technical failure</div>
+          <div id="ex${i}-s4-input-row" class="reps-row">
+            <input type="number" id="ex${i}-s4-reps" class="reps-in" placeholder="Reps done" min="0" max="60" inputmode="numeric">
+            <button class="reps-log-btn" onclick="logSet4(${i})">Log</button>
+          </div>
+          <div id="ex${i}-s4-logged" class="hidden" style="margin-top:10px;font-size:13px;color:var(--green);font-weight:600;">
+            ✓ <span id="ex${i}-s4-logged-txt"></span>
+          </div>
           <div class="s4-feedback">
-            <div class="s4-fb-lbl">Autoregulation feedback</div>
+            <div class="s4-fb-lbl">Adjustment from Set 3</div>
             <div class="s4-fb-txt" id="ex${i}-s4-fb"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-card working" id="ex${i}-s5-card">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">5</div><div class="set-type">Auto-regulated · AMRAP</div></div></div>
+        <div id="ex${i}-s5-locked" style="font-size:13px;color:var(--muted2);padding:4px 0;">
+          Complete Set 4 to unlock the final adjusted weight
+        </div>
+        <div id="ex${i}-s5-reveal" class="hidden">
+          <div class="set-w" id="ex${i}-s5-w">—</div>
+          <div class="set-r" id="ex${i}-s5-note">Go to technical failure</div>
+          <div id="ex${i}-s5-input-row" class="reps-row">
+            <input type="number" id="ex${i}-s5-reps" class="reps-in" placeholder="Reps done" min="0" max="60" inputmode="numeric">
+            <button class="reps-log-btn" onclick="logSet5(${i})">Log</button>
+          </div>
+          <div id="ex${i}-s5-logged" class="hidden" style="margin-top:10px;font-size:13px;color:var(--green);font-weight:600;">
+            ✓ <span id="ex${i}-s5-logged-txt"></span>
+          </div>
+          <div class="s4-feedback">
+            <div class="s4-fb-lbl">Adjustment from Set 4</div>
+            <div class="s4-fb-txt" id="ex${i}-s5-fb"></div>
           </div>
         </div>
       </div>
@@ -787,7 +835,7 @@ function renderExSection(i) {
         </button>
         <div id="ex${i}-adj-table-wrap" class="hidden" style="margin-top:8px;">
           <table class="adj-table">
-            <thead><tr><th>Reps (Set 3)</th><th>Adjustment</th><th>Meaning</th></tr></thead>
+            <thead><tr><th>Reps (Last Working Set)</th><th>Adjustment</th><th>Meaning</th></tr></thead>
             <tbody id="ex${i}-adj-tbody"></tbody>
           </table>
         </div>
@@ -815,9 +863,8 @@ function logSet3(i) {
 
   ex.s3Reps = reps;
   const cfg = CONFIGS[ex.variant];
-  const adj = getAdj(cfg, reps);
-  const adjAmt = S.unit === 'lbs' ? adj.lbs : adj.kg;
-  ex.adjWeight = Math.max(0, snap(ex.working + adjAmt));
+  const { adj, nextWeight } = getAdjustedLoad(cfg, ex.working, reps);
+  ex.s4Weight = nextWeight;
 
   document.getElementById(`ex${i}-s3-input-row`).classList.add('hidden');
   document.getElementById(`ex${i}-s3-logged`).classList.remove('hidden');
@@ -826,21 +873,75 @@ function logSet3(i) {
 
   document.getElementById(`ex${i}-s4-locked`).classList.add('hidden');
   document.getElementById(`ex${i}-s4-reveal`).classList.remove('hidden');
-  document.getElementById(`ex${i}-s4-card`).classList.add('done');
 
   const s4wEl = document.getElementById(`ex${i}-s4-w`);
-  s4wEl.textContent = fmt(ex.adjWeight);
+  s4wEl.textContent = fmt(ex.s4Weight);
   s4wEl.className = `set-w ${adj.dir}`;
+  document.getElementById(`ex${i}-s4-note`).textContent = `Adjusted from Set 3 — target ~${cfg.target} reps at technical failure`;
 
   const fbEl = document.getElementById(`ex${i}-s4-fb`);
   fbEl.textContent = `${reps} rep${reps === 1 ? '' : 's'} @ ${fmt(ex.working)} — ${adj.text}`;
   fbEl.className = `s4-fb-txt ${adj.dir}`;
 
   highlightAdjRow(i, cfg, reps);
-
-  if (S.exs.every(e => e.s3Reps !== null)) showNextSession();
-
   document.getElementById(`ex${i}-s4-card`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function logSet4(i) {
+  const ex = S.exs[i];
+  const repsEl = document.getElementById(`ex${i}-s4-reps`);
+  const reps = parseInt(repsEl.value);
+  if (Number.isNaN(reps) || reps < 0) { repsEl.focus(); return; }
+
+  ex.s4Reps = reps;
+  const cfg = CONFIGS[ex.variant];
+  const { adj, nextWeight } = getAdjustedLoad(cfg, ex.s4Weight, reps);
+  ex.s5Weight = nextWeight;
+
+  document.getElementById(`ex${i}-s4-input-row`).classList.add('hidden');
+  document.getElementById(`ex${i}-s4-logged`).classList.remove('hidden');
+  document.getElementById(`ex${i}-s4-logged-txt`).textContent = `${reps} rep${reps === 1 ? '' : 's'} logged`;
+  document.getElementById(`ex${i}-s4-card`).classList.add('done');
+
+  document.getElementById(`ex${i}-s5-locked`).classList.add('hidden');
+  document.getElementById(`ex${i}-s5-reveal`).classList.remove('hidden');
+
+  const s5wEl = document.getElementById(`ex${i}-s5-w`);
+  s5wEl.textContent = fmt(ex.s5Weight);
+  s5wEl.className = `set-w ${adj.dir}`;
+  document.getElementById(`ex${i}-s5-note`).textContent = `Adjusted from Set 4 — target ~${cfg.target} reps at technical failure`;
+
+  const fbEl = document.getElementById(`ex${i}-s5-fb`);
+  fbEl.textContent = `${reps} rep${reps === 1 ? '' : 's'} @ ${fmt(ex.s4Weight)} — ${adj.text}`;
+  fbEl.className = `s4-fb-txt ${adj.dir}`;
+
+  highlightAdjRow(i, cfg, reps);
+  document.getElementById(`ex${i}-s5-card`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function logSet5(i) {
+  const ex = S.exs[i];
+  const repsEl = document.getElementById(`ex${i}-s5-reps`);
+  const reps = parseInt(repsEl.value);
+  if (Number.isNaN(reps) || reps < 0) { repsEl.focus(); return; }
+
+  ex.s5Reps = reps;
+  const cfg = CONFIGS[ex.variant];
+  const { adj, nextWeight } = getAdjustedLoad(cfg, ex.s5Weight, reps);
+  ex.nextWeight = nextWeight;
+
+  document.getElementById(`ex${i}-s5-input-row`).classList.add('hidden');
+  document.getElementById(`ex${i}-s5-logged`).classList.remove('hidden');
+  document.getElementById(`ex${i}-s5-logged-txt`).textContent = `${reps} rep${reps === 1 ? '' : 's'} logged`;
+  document.getElementById(`ex${i}-s5-card`).classList.add('done');
+
+  const fbEl = document.getElementById(`ex${i}-s5-fb`);
+  fbEl.textContent = `${reps} rep${reps === 1 ? '' : 's'} @ ${fmt(ex.s5Weight)} — ${adj.text}. Next session: ${fmt(ex.nextWeight)}.`;
+  fbEl.className = `s4-fb-txt ${adj.dir}`;
+
+  highlightAdjRow(i, cfg, reps);
+
+  if (S.exs.every(e => e.s5Reps !== null)) showNextSession();
 }
 
 function highlightAdjRow(i, cfg, reps) {
@@ -864,9 +965,9 @@ function showNextSession() {
   document.getElementById('next-session-weights').innerHTML = S.exs.map(ex => `
     <div style="margin-bottom:12px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted2);margin-bottom:2px;">
-        ${EXERCISES[ex.key].em}  ${EXERCISES[ex.key].name}
+        ${escapeHtml(ex.name)}
       </div>
-      <div class="next-weight">${fmt(ex.adjWeight)}</div>
+      <div class="next-weight">${fmt(ex.nextWeight)}</div>
     </div>
   `).join('');
   const card = document.getElementById('next-session-card');
@@ -876,17 +977,18 @@ function showNextSession() {
 
 function goSetup() {
   document.getElementById('sess-view').classList.add('hidden');
-  document.getElementById('step-config').classList.add('hidden');
-  document.getElementById('step-day').classList.remove('hidden');
-  S.day = null;
-  S.exs.forEach(ex => Object.assign(ex, { key: null, inputMode: '1rm', variant: null, working: null, s3Reps: null, adjWeight: null }));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  S.exs = [blankExercise()];
+  showStepSetup();
 }
 
 function newSession() {
-  const prevWeights = S.exs.map(ex => ex.adjWeight);
-  S.exs.forEach(ex => Object.assign(ex, { working: null, s3Reps: null, adjWeight: null, inputMode: 'working' }));
-  showStepConfig(prevWeights);
+  S.exs = S.exs.map(ex => blankExercise({
+    name: ex.name,
+    startWeight: ex.nextWeight ?? '',
+    inputMode: 'working',
+    variant: ex.variant,
+  }));
+  showStepSetup();
 }
 
 // ─── HISTORY ──────────────────────────────────────────────────────────────────
@@ -896,18 +998,19 @@ const HISTORY_KEY = 'apre_history';
 function saveSession() {
   const record = {
     date: new Date().toISOString(),
-    day:     S.day,
-    dayName: DAYS[S.day].name,
-    dayEm:   DAYS[S.day].em,
+    sessionLabel: getSessionLabel(),
+    liftCount: S.exs.length,
     unit:    S.unit,
     exercises: S.exs.map(ex => ({
-      key:       ex.key,
-      name:      EXERCISES[ex.key].name,
-      em:        EXERCISES[ex.key].em,
+      name:      ex.name,
       variant:   ex.variant,
       working:   ex.working,
       s3Reps:    ex.s3Reps,
-      adjWeight: ex.adjWeight,
+      s4Weight:  ex.s4Weight,
+      s4Reps:    ex.s4Reps,
+      s5Weight:  ex.s5Weight,
+      s5Reps:    ex.s5Reps,
+      nextWeight: ex.nextWeight,
     })),
   };
   const history = getHistory();
@@ -927,7 +1030,7 @@ function updateHistNavLabel() {
 }
 
 function showHistory() {
-  document.getElementById('step-day').classList.add('hidden');
+  document.getElementById('step-setup').classList.add('hidden');
   document.getElementById('history-view').classList.remove('hidden');
   renderHistory();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -935,7 +1038,7 @@ function showHistory() {
 
 function hideHistory() {
   document.getElementById('history-view').classList.add('hidden');
-  document.getElementById('step-day').classList.remove('hidden');
+  document.getElementById('step-setup').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -956,18 +1059,21 @@ function renderHistory() {
 
 function renderHistSession(s) {
   const exRows = s.exercises.map(ex => {
-    const dir = ex.adjWeight > ex.working ? 'up' : ex.adjWeight < ex.working ? 'down' : 'same';
+    const nextWeight = ex.nextWeight ?? ex.adjWeight ?? ex.working;
+    const compareWeight = ex.s5Weight ?? ex.working;
+    const dir = nextWeight > compareWeight ? 'up' : nextWeight < compareWeight ? 'down' : 'same';
     const arrow = dir === 'up' ? '↑' : dir === 'down' ? '↓' : '→';
+    const stats = ex.s5Reps != null
+      ? `APRE ${ex.variant} · S3: <strong>${ex.s3Reps}</strong> @ <strong>${ex.working} ${s.unit}</strong> · S4: <strong>${ex.s4Reps}</strong> @ <strong>${ex.s4Weight} ${s.unit}</strong> · S5: <strong>${ex.s5Reps}</strong> @ <strong>${ex.s5Weight} ${s.unit}</strong>`
+      : `APRE ${ex.variant} · Set 4: <strong>${ex.s3Reps} rep${ex.s3Reps === 1 ? '' : 's'}</strong> @ <strong>${ex.working} ${s.unit}</strong>`;
     return `
       <div class="hist-ex-row">
         <div>
-          <div class="hist-ex-name">${ex.em}  ${ex.name}</div>
-          <div class="hist-ex-stats">
-            APRE ${ex.variant} · Set 3: <strong>${ex.s3Reps} rep${ex.s3Reps === 1 ? '' : 's'}</strong> @ <strong>${ex.working} ${s.unit}</strong>
-          </div>
+          <div class="hist-ex-name">${escapeHtml(ex.name || 'Lift')}</div>
+          <div class="hist-ex-stats">${stats}</div>
         </div>
         <div>
-          <div class="hist-next-w ${dir}">${ex.adjWeight} ${s.unit}<span class="hist-arrow">${arrow}</span></div>
+          <div class="hist-next-w ${dir}">${nextWeight} ${s.unit}<span class="hist-arrow">${arrow}</span></div>
           <div style="font-size:10px;color:var(--muted2);text-align:right;">next wt</div>
         </div>
       </div>
@@ -977,7 +1083,7 @@ function renderHistSession(s) {
   return `
     <div class="hist-session">
       <div class="hist-session-hdr">
-        <div class="hist-day-name">${s.dayEm}  ${s.dayName}</div>
+        <div class="hist-day-name">${escapeHtml(s.sessionLabel || s.dayName || 'Workout')}</div>
         <div class="hist-date">${formatHistDate(s.date)}<br>${formatHistTime(s.date)}</div>
       </div>
       ${exRows}
@@ -1011,6 +1117,8 @@ function clearHistory() {
 
 // Init history label on load
 updateHistNavLabel();
+S.exs = [blankExercise()];
+showStepSetup();
 
 // ─── CHAT ─────────────────────────────────────────────────────────────────────
 
@@ -1044,10 +1152,9 @@ async function sendChat() {
   const typing = appendBubble('assistant', '…', 'typing');
 
   const context = {};
-  if (S.day) context.day = DAYS[S.day].name;
   S.exs.forEach((ex, i) => {
-    if (ex.key) {
-      context[`exercise${i + 1}`] = EXERCISES[ex.key].name;
+    if (ex.name.trim()) {
+      context[`exercise${i + 1}`] = ex.name.trim();
       if (ex.variant)  context[`variant${i + 1}`]  = `APRE ${ex.variant}`;
       if (ex.working)  context[`working${i + 1}`]  = `${ex.working} ${S.unit}`;
     }

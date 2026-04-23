@@ -17,29 +17,30 @@ APRE adapts training load based on real-time performance within each session —
 - **APRE 3** (92% of 1RM): Absolute strength/power phase, target ~3 reps per working set
 
 ## Five-Set Structure
-0. **Set 0 — Warm-up**: General movement prep and unloaded/light rehearsal reps
+**Warm-up**: General movement prep and unloaded/light rehearsal reps
 1. **Set 1 — Ramp-up**: Reps at 50% of working weight, primes the movement pattern
 2. **Set 2 — Ramp-up**: Reps at 75% of working weight, builds toward working intensity
-3. **Set 3 — Working (AMRAP)**: Go to technical failure at working weight
-4. **Set 4 — Working (AMRAP)**: Adjusted weight based on Set 3 reps — this is the autoregulation step
+3. **Set 3 — Working (AMRAP)**: First auto-regulated set at working weight
+4. **Set 4 — Working (AMRAP)**: Adjusted from Set 3 reps
+5. **Set 5 — Working (AMRAP)**: Adjusted from Set 4 reps; use this result to set the next session's starting weight
 
 ## Adjustment Charts
 
-**APRE 10** (target ~10 reps in Set 3):
+**APRE 10** (target ~10 reps in Sets 3-5):
 - 0–6 reps: −5 to −10 lbs (too heavy)
 - 7–8 reps: −0 to −5 lbs (slightly heavy)
 - 9–11 reps: same weight (on target)
 - 12–16 reps: +5 to +10 lbs (above target)
 - 17+ reps: +10 to +15 lbs (well above)
 
-**APRE 6** (target ~6 reps in Set 3):
+**APRE 6** (target ~6 reps in Sets 3-5):
 - 0–2 reps: −5 to −10 lbs
 - 3–4 reps: −0 to −5 lbs
 - 5–7 reps: same weight
 - 8–12 reps: +5 to +10 lbs
 - 13+ reps: +10 to +15 lbs
 
-**APRE 3** (target ~3 reps in Set 3):
+**APRE 3** (target ~3 reps in Sets 3-5):
 - 0–1 reps: −5 to −10 lbs
 - 2 reps: −0 to −5 lbs
 - 3–4 reps: same weight
@@ -77,13 +78,7 @@ async def chat(req: ChatRequest):
     user_content = req.message
     ctx = req.context
     if ctx:
-        parts = []
-        if ctx.get("exercise"):
-            parts.append(f"Exercise: {ctx['exercise']}")
-        if ctx.get("variant"):
-            parts.append(f"APRE variant: APRE {ctx['variant']}")
-        if ctx.get("workingWeight") and ctx.get("unit"):
-            parts.append(f"Working weight: {ctx['workingWeight']} {ctx['unit']}")
+        parts = [f"{key}: {value}" for key, value in ctx.items() if value]
         if parts:
             user_content = f"[Session: {', '.join(parts)}]\n\n{req.message}"
 

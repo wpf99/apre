@@ -335,7 +335,7 @@
 
     <div id="ex-config-cards"></div>
 
-    <button class="btn-primary" id="calc-btn" onclick="startSession()" disabled>Calculate Sets</button>
+    <button class="btn-primary" id="calc-btn" onclick="startSession()" disabled>Calculate 5-Set Plan</button>
   </div>
 
   <!-- ═══ SESSION VIEW ═══ -->
@@ -415,7 +415,7 @@ const CONFIGS = {
     pct: 0.75, target: 10,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps: 10, s2Pct: 0.75,
-    desc: 'Endurance phase — builds work capacity and volume tolerance. 2 warm-up sets, then go to technical failure at your working weight.',
+    desc: 'Endurance phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
     adj: [
       { max: 6,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 8,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -436,7 +436,7 @@ const CONFIGS = {
     pct: 0.83, target: 6,
     s1Reps: 10, s1Pct: 0.50,
     s2Reps:  6, s2Pct: 0.75,
-    desc: 'Submaximal strength phase — develops near-maximal strength. 2 warm-up sets, then go to technical failure at your working weight.',
+    desc: 'Submaximal strength phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
     adj: [
       { max: 2,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 4,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -457,7 +457,7 @@ const CONFIGS = {
     pct: 0.92, target: 3,
     s1Reps: 6, s1Pct: 0.50,
     s2Reps: 3, s2Pct: 0.75,
-    desc: 'Absolute strength/power phase — develops maximal strength output. 2 warm-up sets, then go to technical failure at your working weight.',
+    desc: 'Absolute strength/power phase — 5-set APRE flow: general warm-up, 2 ramp-up sets, then 2 max-effort working sets.',
     adj: [
       { max: 1,        lbs: -10, kg: -5,   dir: 'down', text: 'Too heavy — reduce load next set' },
       { max: 2,        lbs:  -5, kg: -2.5, dir: 'down', text: 'Slightly heavy — small reduction' },
@@ -729,22 +729,28 @@ function renderExSection(i) {
       <div class="sess-hdr">
         <div class="sess-hdr-left">
           <div class="sess-name">${exInfo.em}  ${exInfo.name}</div>
-          <div class="sess-sub">${cfg.label} · Working: ${fmt(ex.working)}</div>
+          <div class="sess-sub">${cfg.label} · 5 sets total · Working: ${fmt(ex.working)}</div>
         </div>
         <span class="badge">${cfg.label}</span>
       </div>
       <div class="info-banner">${cfg.desc}</div>
 
       <div class="set-card warmup">
-        <div class="set-hdr"><div class="set-lbl"><div class="set-num">1</div><div class="set-type">Warm-up</div></div></div>
-        <div class="set-w">${fmt(s1w)}</div>
-        <div class="set-r"><strong>${cfg.s1Reps} reps</strong></div>
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">0</div><div class="set-type">Warm-up</div></div></div>
+        <div class="set-w" style="font-size:22px;">General Prep</div>
+        <div class="set-r"><strong>5-10 min</strong> of movement prep, then a few unloaded or very light rehearsal reps</div>
       </div>
 
       <div class="set-card warmup">
-        <div class="set-hdr"><div class="set-lbl"><div class="set-num">2</div><div class="set-type">Warm-up</div></div></div>
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">1</div><div class="set-type">Ramp-up</div></div></div>
+        <div class="set-w">${fmt(s1w)}</div>
+        <div class="set-r"><strong>${cfg.s1Reps} reps</strong> at 50% of working weight</div>
+      </div>
+
+      <div class="set-card warmup">
+        <div class="set-hdr"><div class="set-lbl"><div class="set-num">2</div><div class="set-type">Ramp-up</div></div></div>
         <div class="set-w">${fmt(s2w)}</div>
-        <div class="set-r"><strong>${cfg.s2Reps} reps</strong></div>
+        <div class="set-r"><strong>${cfg.s2Reps} reps</strong> at 75% of working weight</div>
       </div>
 
       <div class="set-card working" id="ex${i}-s3-card">
@@ -805,7 +811,7 @@ function logSet3(i) {
   const ex = S.exs[i];
   const repsEl = document.getElementById(`ex${i}-s3-reps`);
   const reps = parseInt(repsEl.value);
-  if (!reps || reps < 0) { repsEl.focus(); return; }
+  if (Number.isNaN(reps) || reps < 0) { repsEl.focus(); return; }
 
   ex.s3Reps = reps;
   const cfg = CONFIGS[ex.variant];
